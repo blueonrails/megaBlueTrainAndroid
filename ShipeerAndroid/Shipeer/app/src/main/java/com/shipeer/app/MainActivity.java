@@ -2,6 +2,7 @@ package com.shipeer.app;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -22,8 +23,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         webView = (WebView) findViewById(R.id.webView);
         webView.loadUrl("http://shipeer.com/");
