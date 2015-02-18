@@ -1,11 +1,11 @@
 package com.shipeer.app;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.Signature;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,12 +27,7 @@ public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
     private static final String TAG_ONCREATE = "LoginFragment.OnCreate";
 
-    private Session.StatusCallback callback = new Session.StatusCallback() {
-        @Override
-        public void call(Session session, SessionState state, Exception exception) {
-            onSessionStateChange(session, state, exception);
-        }
-    };
+    private GlobalState globalState;
     private UiLifecycleHelper uiHelper;
 
     public static LoginFragment newInstance() {
@@ -68,16 +63,40 @@ public class LoginFragment extends Fragment {
 
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
         if (state.isOpened()) {
-            Request.newMeRequest(session, new Request.GraphUserCallback() {
-                @Override
-                public void onCompleted(GraphUser user, Response response) {
-                    if (user != null) {
-                        Log.i(TAG, "Logged in... response:" + response.getRawResponse());
+            final SharedPreferences preferences = GlobalState.getSharedPreferences();
+            boolean isFacebookLogedIn = preferences.getBoolean("FacebookLogedIn", false);
+
+            if(!isFacebookLogedIn) {
+                Request.newMeRequest(session, new Request.GraphUserCallback() {
+                    @Override
+                    public void onCompleted(GraphUser user, Response response) {
+                        if (user != null) {
+                            Log.i(TAG, "Logged in... response:" + response.getRawResponse());
+
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putBoolean("FacebookLogedIn", true);
+                            editor.putString("FacebookUserId", user.getId());
+                            editor.putString("FacebookUsername", user.getUsername());
+                            editor.putString("FacebookUserFirstName", user.getFirstName());
+                            editor.putString("FacebookUserMiddleName", user.getMiddleName());
+                            editor.putString("FacebookUserLastName", user.getLastName());
+                            editor.putString("FacebookUserBirthday", user.getBirthday());
+                            editor.putString("FacebookUserEmail", user.getProperty("email").toString());
+                            editor.commit();
+
+                            goToUserProfileFragment();
+                        }
                     }
-                }
-            }).executeAsync();
+                }).executeAsync();
+            } else {
+                goToUserProfileFragment();
+            }
         } else if (state.isClosed()) {
             Log.i(TAG, "Logged out...");
+            SharedPreferences preferences = GlobalState.getSharedPreferences();
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("FacebookLogedIn", false);
+            editor.commit();
         }
     }
 
@@ -120,4 +139,18 @@ public class LoginFragment extends Fragment {
         uiHelper.onSaveInstanceState(outState);
     }
 
+    private Session.StatusCallback callback = new Session.StatusCallback() {
+        @Override
+        public void call(Session session, SessionState state, Exception exception) {
+            onSessionStateChange(session, state, exception);
+        }
+    };
+
+    private void goToUserProfileFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        UserProfileFragment fragment = new UserProfileFragment();
+        fragmentTransaction.replace(android.R.id.content, fragment).commit();
+    }
 }
