@@ -1,19 +1,12 @@
 package com.shipeer.app;
 
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Base64;
 import android.util.Log;
 
 import com.facebook.AppEventsLogger;
-import com.facebook.Session;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends FragmentActivity {
 
@@ -30,13 +23,18 @@ public class MainActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("Start", "Start");
 
         SharedPreferences preferences = GlobalState.getSharedPreferences();
-        boolean isFacebookLogedIn = preferences.getBoolean("FacebookLogedIn", false);
+        if(preferences == null) preferences = getSharedPreferences("ShipeerApp", Context.MODE_PRIVATE);
 
-        if(isFacebookLogedIn) {
+        String facebookAccessToken = preferences.getString("FacebookAccessToken", null);
+        Log.d("FacebookAccessToken", facebookAccessToken + "");
+
+        if (facebookAccessToken != null) {
             String fbUserId = preferences.getString("FacebookUserId", "");
             String fbUsername = preferences.getString("FacebookUsername", "");
+            String fbUserGender = preferences.getString("FacebookUserGender", "");
             String fbUserFirstName = preferences.getString("FacebookUserFirstName", "");
             String fbUserMiddleName = preferences.getString("FacebookUserMiddleName", "");
             String fbUserLastName = preferences.getString("FacebookUserLastName", "");
@@ -45,6 +43,7 @@ public class MainActivity extends FragmentActivity {
 
             Log.d(TAG_ONCREATE, "FB id: " + fbUserId);
             Log.d(TAG_ONCREATE, "FB username: " + fbUsername);
+            Log.d(TAG_ONCREATE, "FB gender: " + fbUserGender);
             Log.d(TAG_ONCREATE, "FB first name: " + fbUserFirstName);
             Log.d(TAG_ONCREATE, "FB middle name: " + fbUserMiddleName);
             Log.d(TAG_ONCREATE, "FB last name: " + fbUserLastName);
@@ -52,13 +51,14 @@ public class MainActivity extends FragmentActivity {
             Log.d(TAG_ONCREATE, "FB email: " + fbUserEmail);
 
 
-            UserProfileFragment userProfileFragment = new UserProfileFragment();
+            HomeFragment homeFragment = new HomeFragment();
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(android.R.id.content, userProfileFragment)
+                    .add(android.R.id.content, homeFragment)
                     .commit();
         } else {
             if (savedInstanceState == null) {
+                Log.d(TAG_ONCREATE, "SavedInstanceState = null");
                 // Add the fragment as a new one
                 loginFragment = new LoginFragment();
                 getSupportFragmentManager()
@@ -66,11 +66,11 @@ public class MainActivity extends FragmentActivity {
                         .add(android.R.id.content, loginFragment)
                         .commit();
             } else {
+                Log.d(TAG_ONCREATE, "SavedInstanceState != null");
                 // Set the fragment from the restored state
                 loginFragment = (LoginFragment) getSupportFragmentManager().findFragmentById(android.R.id.content);
             }
         }
-
     }
 
     @Override

@@ -26,4 +26,8 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
+    compile 'com.loopj.android:android-async-http:1.4.5'
+    compile 'com.pkmmte.view:circularimageview:1.1'
+    compile 'com.android.support:cardview-v7:21.0.+'
+    compile 'com.android.support:recyclerview-v7:21.0.+'
 }
