@@ -13,6 +13,27 @@
     <string name="search_trunk">Buscar maletero</string>
     <string name="search">Buscar</string>
     <string name="title_activity_user_profile">UserProfileActivity</string>
+    <string name="profile">Perfil</string>
     <string name="settings">Ajustes</string>
+    <string name="from">De</string>
+    <string name="to">A</string>
+    <string name="title_activity_user_edit_profile">UserEditProfileActivity</string>
+    <string name="email">Email</string>
+    <string name="name">Nombre</string>
+    <string name="surname">Apellidos</string>
+    <string name="phone">Móvil</string>
+    <string name="modify_profile_picture">Modificar foto perfil</string>
+    <string name="save">Guardar</string>
+    <string name="edit_profile">Editar perfil</string>
+    <string name="saved">Guardado!</string>
+    <string name="publish_travel">Publicar viaje</string>
+    <string name="my_travels">Mis viajes</string>
+    <string name="title_activity_publish_travel">PublishTravelActivity</string>
+    <string name="contin">Siguiente</string>
+    <string name="date">Fecha:</string>
+    <string name="small">Pequeño</string>
+    <string name="medium">Mediano</string>
+    <string name="big">Grande</string>
+    <string name="comment">Comentario</string>
 
 </resources>

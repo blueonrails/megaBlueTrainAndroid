@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Action-bar looking view -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/actionbar_dimen"
+    android:background="@color/shipeer">
+
+    <ImageView
+        android:id="@+id/drawer_indicator"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="start"
+        android:background="@drawable/arrow_back_white_128"
+        android:scaleType="centerInside"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:id="@+id/second_action_bar_title_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/actionbar_dimen"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/drawer_selector"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="@string/search_trunk"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

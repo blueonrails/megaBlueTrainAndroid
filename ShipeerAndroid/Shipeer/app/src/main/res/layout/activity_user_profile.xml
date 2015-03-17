@@ -7,7 +7,7 @@
     tools:context="com.shipeer.app.UserProfileActivity">
 
     <!-- Action-bar looking view -->
-    <include layout="@layout/custom_home_action_bar" />
+    <include layout="@layout/custom_second_action_bar" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -26,16 +26,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
 
-                <com.pkmmte.view.CircularImageView
+                <ImageView
                     android:id="@+id/profile_picture_circularimageview"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/shipeer_logo"
-                    android:layout_margin="16dp"
-                    app:border="true"
-                    app:border_color="#EEEEEE"
-                    app:border_width="4dp"
-                    app:shadow="true" />
+                    android:layout_margin="16dp"/>
 
                 <TextView
                     android:id="@+id/complete_name_textview"
@@ -55,6 +51,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="16dp"
             android:layout_below="@+id/card_view_view_profile"
             card_view:cardCornerRadius="4dp">
 

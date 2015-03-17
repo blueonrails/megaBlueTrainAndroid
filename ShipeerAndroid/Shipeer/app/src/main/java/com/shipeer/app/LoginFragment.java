@@ -77,6 +77,27 @@ public class LoginFragment extends Fragment {
                     if (user != null) {
                         Log.i(TAG, "Logged in... response:" + response.getRawResponse());
 
+                        String baseUsername = preferences.getString("BaseUsername", null);
+                        if(baseUsername == null) editor.putString("BaseUsername", user.getName());
+
+                        String baseUserGender = preferences.getString("BaseUserGender", null);
+                        if(baseUserGender == null) editor.putString("BaseUserGender", user.getProperty("gender").toString());
+
+                        String baseUserFirstName = preferences.getString("BaseUserFirstName", null);
+                        if(baseUserFirstName == null) editor.putString("BaseUserFirstName", user.getFirstName());
+
+                        String baseUserSurname = preferences.getString("BaseUserSurname", null);
+                        if(baseUserSurname == null) editor.putString("BaseUserSurname", user.getLastName());
+
+                        String baseUserBirthday = preferences.getString("BaseUserBirthday", null);
+                        if(baseUserBirthday == null) editor.putString("BaseUserBirthday", user.getBirthday());
+
+                        String baseUserEmail = preferences.getString("BaseUserEmail", null);
+                        if(baseUserEmail == null) editor.putString("BaseUserEmail", user.getProperty("email").toString());
+
+                        String baseUserProfilePicture = preferences.getString("BaseUserProfilePicture", null);
+                        if(baseUserProfilePicture == null) editor.putString("BaseUserProfilePicture", "https://graph.facebook.com/" + user.getId() + "/picture?type=large");
+
                         editor.putString("FacebookUserId", user.getId());
                         editor.putString("FacebookUserGender", user.getProperty("gender").toString());
                         editor.putString("FacebookUsername", user.getUsername());

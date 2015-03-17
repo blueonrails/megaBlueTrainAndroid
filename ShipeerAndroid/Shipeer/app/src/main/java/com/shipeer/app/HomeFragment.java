@@ -2,14 +2,13 @@ package com.shipeer.app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,42 +18,32 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import async.OnPlacesTaskCompleted;
+import async.PlacesTask;
 import drawer.DrawerArrowDrawable;
 import drawer.NavigationAdapter;
+import model.City;
 
 import static android.view.Gravity.START;
 
-public class HomeFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class HomeFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, OnPlacesTaskCompleted {
 
     //Google Maps stuff
-    private static final String LOG_TAG = "HomeFragment";
-
-    private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
-    private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
-    private static final String OUT_JSON = "/json";
-
-    private static final String API_KEY = "AIzaSyDwI3RVBYFxq-goRpk_MuFgh5Jvm-U0Bzc";
+    private static ArrayList<City> cities = null;
 
     private AutoCompleteTextView autoCompViewFrom;
     private AutoCompleteTextView autoCompViewTo;
 
     //Drawer layout objects
+    private final DrawerLayout drawer = null;
     private DrawerArrowDrawable drawerArrowDrawable;
     private float offset;
     private boolean flipped;
@@ -62,6 +51,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
     private ListView NavList;
     private ArrayList<String> NavItms;
     private NavigationAdapter NavAdapter;
+
+    //View variables
+    private LinearLayout flipView;
+    private ImageView imageView;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -84,6 +77,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
         //Drawer Layout
         configureDrawerLayout(view, inflater);
 
+        flipView = (LinearLayout) view.findViewById(R.id.flip_view);
+        flipView.setOnClickListener(this);
+
         autoCompViewFrom = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextViewFrom);
         autoCompViewFrom.setAdapter(new PlacesAutoCompleteAdapter(this.getActivity(), R.layout.maps_citie));
 
@@ -91,18 +87,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                PlacesTask placesTask = new PlacesTask();
+                PlacesTask placesTask = new PlacesTask(HomeFragment.this);
                 placesTask.execute(s.toString());
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-            }
+                                          int after) {}
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
 
         autoCompViewTo = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextViewTo);
@@ -112,18 +106,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                PlacesTask placesTask = new PlacesTask();
+                PlacesTask placesTask = new PlacesTask(HomeFragment.this);
                 placesTask.execute(s.toString());
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-            }
+                                          int after) {}
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
 
         /**ApiRequest request = (ApiRequest) new ApiRequest() {
@@ -139,7 +131,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
 
     private void configureDrawerLayout(View view, LayoutInflater inflater) {
         final DrawerLayout drawer = (DrawerLayout) view.findViewById(R.id.drawer_layout);
-        final ImageView imageView = (ImageView) view.findViewById(R.id.drawer_indicator);
+        imageView = (ImageView) view.findViewById(R.id.drawer_indicator);
         final Resources resources = getResources();
 
         drawerArrowDrawable = new DrawerArrowDrawable(resources);
@@ -164,7 +156,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
         });
 
         imageView.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 if (drawer.isDrawerVisible(START)) {
                     drawer.closeDrawer(START);
                 } else {
@@ -198,12 +191,30 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
         View header = inflater.inflate(R.layout.drawer_layout_header, null);
         header.setEnabled(false);
 
+        SharedPreferences preferences = GlobalState.getSharedPreferences();
+
+        TextView headerName = (TextView) header.findViewById(R.id.name_header);
+        ImageView profilePictureHeader = (ImageView) header.findViewById(R.id.profile_picture_header);
+
+        String userFirstName = preferences.getString("BaseUserFirstName", null);
+        String baseUserSurname = preferences.getString("BaseUserSurname", null);
+        //String baseUserProfilePicture = preferences.getString("BaseUserProfilePicture", null);
+
+        if(userFirstName != null) headerName.setText(userFirstName);
+        if(baseUserSurname != null) headerName.setText(headerName.getText() + " " + baseUserSurname);
+        /**if(baseUserProfilePicture != null) {
+            File file = new File(baseUserProfilePicture);
+            profilePictureHeader.setImageDrawable(Drawable.createFromPath(file.getAbsolutePath()));
+        }**/
+
+        String userID = preferences.getString("FacebookUserId", null);
+        Picasso.with(getActivity()).load("https://graph.facebook.com/" + userID+ "/picture?type=large").into(profilePictureHeader);
+
         NavList.addHeaderView(header);
 
         NavItms = new ArrayList<String>();
-        NavItms.add("Perfil");
-        NavItms.add("Viajes");
-        NavItms.add("Envios");
+        NavItms.add(getString(R.string.publish_travel));
+        NavItms.add(getString(R.string.my_travels));
 
         NavAdapter= new NavigationAdapter(getActivity(), NavItms);
         NavList.setAdapter(NavAdapter);
@@ -211,78 +222,79 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
         NavList.setOnItemClickListener(this);
     }
 
-    private ArrayList<String> autocomplete(String input) {
-        ArrayList<String> resultList = null;
-        //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=(cities)&language=pt_BR&key=API_KEY
-        HttpURLConnection conn = null;
-        StringBuilder jsonResults = new StringBuilder();
-        try {
-            StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
-            sb.append("?sensor=false&key=" + API_KEY);
-            sb.append("&components=country:es");
-            sb.append("&input=" + URLEncoder.encode(input, "utf8"));
-            sb.append("&types(cities)&language=es_ES");
+    @Override
+    public void onResume() {
+        super.onResume();
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View header = inflater.inflate(R.layout.drawer_layout_header, null);
+        header.setEnabled(false);
 
-            URL url = new URL(sb.toString());
-            conn = (HttpURLConnection) url.openConnection();
-            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+        SharedPreferences preferences = GlobalState.getSharedPreferences();
 
-            // Load the results into a StringBuilder
-            int read;
-            char[] buff = new char[1024];
-            while ((read = in.read(buff)) != -1) {
-                jsonResults.append(buff, 0, read);
-            }
-        } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Error processing Places API URL", e);
-            return resultList;
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "Error connecting to Places API", e);
-            return resultList;
-        } finally {
-            if (conn != null) {
-                conn.disconnect();
-            }
-        }
+        TextView headerName = (TextView) header.findViewById(R.id.name_header);
+        ImageView profilePictureHeader = (ImageView) header.findViewById(R.id.profile_picture_header);
 
-        try {
-            // Create a JSON object hierarchy from the results
-            JSONObject jsonObj = new JSONObject(jsonResults.toString());
-            JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
+        String userFirstName = preferences.getString("BaseUserFirstName", null);
+        String baseUserSurname = preferences.getString("BaseUserSurname", null);
+        String baseUserProfilePicture = preferences.getString("BaseUserProfilePicture", null);
 
-            // Extract the Place descriptions from the results
-            resultList = new ArrayList<String>(predsJsonArray.length());
-            for (int i = 0; i < predsJsonArray.length(); i++) {
-                resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
-            }
-        } catch (JSONException e) {
-            Log.e(LOG_TAG, "Cannot process JSON results", e);
-        }
+        if(userFirstName != null) headerName.setText(userFirstName);
+        if(baseUserSurname != null) headerName.setText(headerName.getText() + " " + baseUserSurname);
 
-        return resultList;
+        Picasso.with(getActivity()).load(baseUserProfilePicture).into(profilePictureHeader);
+
+        /**if(baseUserProfilePicture != null) {
+            Log.e("pic", baseUserProfilePicture);
+            File file = new File(baseUserProfilePicture);
+            Picasso.with(getActivity()).load(file)
+                    .resize(50, 50)
+                    .centerCrop().into(profilePictureHeader);
+            //profilePictureHeader.setImageDrawable(Drawable.createFromPath(file.getAbsolutePath()));
+        }**/
     }
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.flip_view:
+                String aux = autoCompViewFrom.getText().toString();
+                autoCompViewFrom.setText(autoCompViewTo.getText().toString() + "");
+                autoCompViewTo.setText(aux + "");
+                break;
+        }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
-            case 0:
-                Intent intent = new Intent(getActivity(), UserProfileActivity.class);
-                startActivity(intent);
+            case 0: //Header
+                Intent profileIntent = new Intent(getActivity(), UserProfileActivity.class);
+                startActivity(profileIntent);
+                this.getActivity().overridePendingTransition(R.anim.right_to_left_slide_in, R.anim.zoom_out);
+                break;
+            case 1: //Publish travel
+                Intent publishTravelIntent = new Intent(getActivity(), PublishTravelActivity.class);
+                startActivity(publishTravelIntent);
+                this.getActivity().overridePendingTransition(R.anim.right_to_left_slide_in, R.anim.zoom_out);
+                break;
+            case 2: //My travels
+                /**Intent myTravelsIntent = new Intent(getActivity(), UserProfileActivity.class);
+                startActivity(myTravelsIntent);
+                this.getActivity().overridePendingTransition(R.anim.right_to_left_slide_in, R.anim.zoom_out);**/
                 break;
         }
     }
 
+    @Override
+    public void onPlacesTaskCompleted(ArrayList<City> result) {
+        cities = result;
+    }
 
     /**
      * List adapter to show cities from Google maps.
      */
     private class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
-        private ArrayList<String> resultList;
+        private ArrayList<City> resultList;
 
         public PlacesAutoCompleteAdapter(Context context, int textViewResourceId) {
             super(context, textViewResourceId);
@@ -295,7 +307,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
 
         @Override
         public String getItem(int index) {
-            return resultList.get(index);
+            return resultList.get(index).getName();
         }
 
         @Override
@@ -306,7 +318,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
                     FilterResults filterResults = new FilterResults();
                     if (constraint != null) {
                         // Retrieve the autocomplete results.
-                        resultList = autocomplete(constraint.toString());
+                        resultList = PlacesTask.autocomplete(constraint.toString());
 
                         // Assign the data to the FilterResults
                         filterResults.values = resultList;
@@ -318,6 +330,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
                 @Override
                 protected void publishResults(CharSequence constraint, FilterResults results) {
                     if (results != null && results.count > 0) {
+                        HomeFragment.this.getActivity().runOnUiThread(new Runnable() {
+                            public void run() {
+                                notifyDataSetChanged();
+                            }
+                        });
                         notifyDataSetChanged();
                     }
                     else {
@@ -325,20 +342,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
                     }
                 }};
             return filter;
-        }
-    }
-
-    // Fetches all places from GooglePlaces AutoComplete Web Service
-    private class PlacesTask extends AsyncTask<String, Void, ArrayList<String>> {
-
-        @Override
-        protected ArrayList<String> doInBackground(String... place) {
-            return autocomplete(place[0]);
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<String> result) {
-            super.onPostExecute(result);
         }
     }
 }

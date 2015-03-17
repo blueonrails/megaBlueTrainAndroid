@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <!-- Action-bar looking view -->
+    <include layout="@layout/custom_home_action_bar" />
+
+    <!-- Content -->
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <!-- The main content view -->
+            <FrameLayout
+                android:id="@+id/content_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/FromToLinearLayout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="#ffffff">
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="20"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="#ffffff">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/autoCompleteTextViewFrom"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:background="#00000000"
+                                android:hint="@string/from"/>
+
+                            <!-- Horizontal line -->
+                            <View
+                                android:id="@+id/gray_line"
+                                android:layout_width="fill_parent"
+                                android:layout_height="1dp"
+                                android:layout_below="@+id/autoCompleteTextViewFrom"
+                                android:background="@color/light_gray" />
+
+                            <AutoCompleteTextView
+                                android:id="@+id/autoCompleteTextViewTo"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/gray_line"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
+                                android:background="#00000000"
+                                android:hint="@string/to"/>
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:id="@+id/flip_view"
+                            android:layout_width="180dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="80"
+                            android:background="@color/shipeer"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/flip_128"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <Button
+                        android:id="@+id/searchButton"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/FromToLinearLayout"
+                        android:text="@string/search" />
+
+                </RelativeLayout>
+            </FrameLayout>
+
+        </ScrollView>
+
+        <!-- The navigation drawer -->
+        <ListView
+            android:id="@+id/lista"
+            android:layout_width="220dp"
+            android:layout_height="fill_parent"
+            android:layout_gravity="start"
+            android:background="#424242"
+            android:choiceMode="singleChoice"
+            android:divider="#2E2E2E"
+            android:dividerHeight="2dp"
+            android:textColor="#424242" />
+
+    </android.support.v4.widget.DrawerLayout>
+
+ </LinearLayout>

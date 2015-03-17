@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/travel_date_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    tools:context="com.shipeer.app.TravelDateFragment">
+
+    <RelativeLayout
+        android:id="@+id/top_action_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <!-- Action-bar looking view -->
+        <include layout="@layout/custom_second_action_bar" />
+    </RelativeLayout>
+
+   <RelativeLayout
+       android:id="@+id/calendar_relative"
+       android:layout_width="fill_parent"
+       android:layout_height="400dp"
+       android:layout_below="@+id/top_action_bar">
+
+       <CalendarView
+           android:layout_width="fill_parent"
+           android:layout_height="fill_parent"
+           android:id="@+id/calendarView"
+           android:layout_alignParentRight="true"
+           android:layout_alignParentEnd="true" />
+
+   </RelativeLayout>
+
+    <TextView
+        android:id="@+id/travel_date_textView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/date"
+        android:layout_below="@+id/calendar_relative"
+        android:textSize="20sp"
+        android:layout_margin="15dp"/>
+
+    <TextView
+        android:id="@+id/publishNext"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/darker_gray"
+        android:gravity="center"
+        android:text="@string/contin"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+</RelativeLayout>
