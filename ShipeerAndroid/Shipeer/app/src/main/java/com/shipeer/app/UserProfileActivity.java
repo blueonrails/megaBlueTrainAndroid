@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.Session;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -29,6 +31,7 @@ public class UserProfileActivity extends Activity implements View.OnClickListene
     private TextView completeNameTextView;
     private ImageView profilePictureImageView;
 
+    private CardView logOutCardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,9 @@ public class UserProfileActivity extends Activity implements View.OnClickListene
         completeNameTextView.setOnClickListener(this);
 
         profilePictureImageView = (ImageView) findViewById(R.id.profile_picture_circularimageview);
+
+        logOutCardView = (CardView) findViewById(R.id.card_view_log_out);
+        logOutCardView.setOnClickListener(this);
     }
 
     @Override
@@ -75,7 +81,26 @@ public class UserProfileActivity extends Activity implements View.OnClickListene
                 Intent intent = new Intent(this, UserEditProfileActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.card_view_log_out:
+                logOut();
+                break;
         }
+    }
+
+    private void logOut() {
+        SharedPreferences preferences = GlobalState.getSharedPreferences();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove("FacebookAccessToken");
+        editor.commit();
+
+        Session.getActiveSession().closeAndClearTokenInformation();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     @Override

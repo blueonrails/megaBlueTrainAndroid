@@ -68,7 +68,6 @@ public class LoginFragment extends Fragment {
             final SharedPreferences.Editor editor = preferences.edit();
             editor.putString("FacebookAccessToken", session.getAccessToken());
             editor.putString("FacebookAccessTokenExpirationDate", session.getExpirationDate().toString());
-            editor.putString("FacebookAccessToken", session.getAccessToken());
             editor.commit();
 
             Request.newMeRequest(session, new Request.GraphUserCallback() {

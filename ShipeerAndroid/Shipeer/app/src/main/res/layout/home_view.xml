@@ -19,10 +19,11 @@
 
         <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
 
             <!-- The main content view -->
-            <FrameLayout
+            <RelativeLayout
                 android:id="@+id/content_frame"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -102,7 +103,25 @@
                         android:text="@string/search" />
 
                 </RelativeLayout>
-            </FrameLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/shipeer">
+
+                    <TextView
+                        android:id="@+id/publishTravel"
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:background="@color/shipeer"
+                        android:gravity="center"
+                        android:text="@string/publish_travel"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp" />
+
+                </RelativeLayout>
+            </RelativeLayout>
 
         </ScrollView>
 

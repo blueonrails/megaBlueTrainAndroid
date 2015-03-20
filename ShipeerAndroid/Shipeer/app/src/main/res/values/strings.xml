@@ -30,10 +30,12 @@
     <string name="my_travels">Mis viajes</string>
     <string name="title_activity_publish_travel">PublishTravelActivity</string>
     <string name="contin">Siguiente</string>
-    <string name="date">Fecha:</string>
+    <string name="time">Hora:</string>
     <string name="small">Pequeño</string>
     <string name="medium">Mediano</string>
     <string name="big">Grande</string>
     <string name="comment">Comentario</string>
+    <string name="missing_info">Faltan datos en la búsqueda</string>
+    <string name="log_out">Cerrar sesión</string>
 
 </resources>

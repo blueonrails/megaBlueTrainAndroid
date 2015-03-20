@@ -20,6 +20,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -52,6 +53,8 @@ public class TravelFromToFragment extends Fragment implements View.OnClickListen
 
     private AutoCompleteTextView autoCompViewFrom;
     private AutoCompleteTextView autoCompViewTo;
+    private View grayLine;
+    private LinearLayout flipView;
 
     private TextView actionBarTitleTextView;
     private ImageView backImageView;
@@ -98,8 +101,8 @@ public class TravelFromToFragment extends Fragment implements View.OnClickListen
         backImageView = (ImageView) view.findViewById(R.id.drawer_indicator);
         backImageView.setOnClickListener(this);
 
-        //mMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map_publish)).getMap();
-        //mMap = ((SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map_publish)).getMap();
+        flipView = (LinearLayout) view.findViewById(R.id.flip_view);
+        flipView.setOnClickListener(this);
 
         FragmentManager fm = getChildFragmentManager();
         mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map_publish);
@@ -169,6 +172,8 @@ public class TravelFromToFragment extends Fragment implements View.OnClickListen
             }
         });
 
+        grayLine = view.findViewById(R.id.gray_line);
+
         return view;
     }
 
@@ -185,19 +190,53 @@ public class TravelFromToFragment extends Fragment implements View.OnClickListen
                 break;
             case R.id.publishNext:
                 Log.d("go next", "now starting");
-                //if(cityFrom != null && cityTo != null) {
+                if(cityFrom != null && cityTo != null) {
+                    PublishTravelActivity.setCityFrom(cityFrom);
+                    PublishTravelActivity.setCityTo(cityTo);
                     TravelDateFragment travelDateFragment = new TravelDateFragment();
                     getFragmentManager().beginTransaction()
                         .replace(R.id.travel_from_to_fragment, travelDateFragment)
                         .addToBackStack(null)
                         .commit();
-                //}
+                }
                 break;
             case R.id.flip_view:
-                String aux = autoCompViewFrom.getText().toString();
-                autoCompViewFrom.setText(autoCompViewTo.getText().toString() + "");
-                autoCompViewTo.setText(aux + "");
+                flipFromTo();
                 break;
+        }
+    }
+
+    private void flipFromTo() {
+        City cityAux = cityFrom;
+        cityFrom = cityTo;
+        cityTo = cityAux;
+
+        Marker markerAux = markerFrom;
+        markerFrom = markerTo;
+        markerTo = markerAux;
+
+        String aux = autoCompViewFrom.getText().toString();
+        autoCompViewFrom.setFocusable(false);
+        autoCompViewTo.setFocusable(false);
+
+        autoCompViewFrom.setEnabled(false);
+        autoCompViewTo.setEnabled(false);
+
+        autoCompViewFrom.setText(autoCompViewTo.getText().toString() + "");
+        autoCompViewTo.setText(aux + "");
+
+        autoCompViewFrom.setFocusable(true);
+        autoCompViewTo.setFocusable(true);
+
+        autoCompViewFrom.setFocusableInTouchMode(true);
+        autoCompViewTo.setFocusableInTouchMode(true);
+
+        autoCompViewFrom.setEnabled(true);
+        autoCompViewTo.setEnabled(true);
+
+        if(cityFrom != null && cityFrom.getLat() != 0 && cityTo != null && cityTo.getLat() != 0) {
+            publishNextTextView.setEnabled(true);
+            publishNextTextView.setBackgroundColor(getResources().getColor(R.color.shipeer));
         }
     }
 
@@ -210,11 +249,25 @@ public class TravelFromToFragment extends Fragment implements View.OnClickListen
             PlacesDetailTask detailsTask = null;
 
             if(adapter.getType() == PlacesAutoCompleteAdapter.TYPE_FROM) {
-                cityFrom = new City(cities.get(position).getName(), cities.get(position).getPlaceId());
-                detailsTask = new PlacesDetailTask(this, cityFrom);
+                if(cityFrom == null || !cityFrom.getName().equalsIgnoreCase(cities.get(position).getName())) {
+
+                    Log.e("Places Details Task lauched", "Details - FROM - " + cities.get(position).getName());
+                    if(cityFrom != null) Log.e("Current FROM" , cityFrom.getName() + "");
+                    else Log.e("Current FROM" , "NULL");
+
+                    cityFrom = new City(cities.get(position).getName(), cities.get(position).getPlaceId());
+                    detailsTask = new PlacesDetailTask(this, cityFrom);
+                }
             } else if(adapter.getType() == PlacesAutoCompleteAdapter.TYPE_TO) {
-                cityTo = new City(cities.get(position).getName(), cities.get(position).getPlaceId());
-                detailsTask = new PlacesDetailTask(this, cityTo);
+                if(cityTo == null || !cityTo.getName().equalsIgnoreCase(cities.get(position).getName())) {
+
+                    Log.e("Places Details Task lauched", "Details - TO - " + cities.get(position).getName());
+                    if(cityTo != null) Log.e("Current TO" , cityTo.getName() + "");
+                    else Log.e("Current TO" , "NULL");
+
+                    cityTo = new City(cities.get(position).getName(), cities.get(position).getPlaceId());
+                    detailsTask = new PlacesDetailTask(this, cityTo);
+                }
             }
 
             if(detailsTask != null) {
@@ -269,7 +322,8 @@ public class TravelFromToFragment extends Fragment implements View.OnClickListen
 
         @Override
         public String getItem(int index) {
-            return cities.get(index).getName();
+            if(index < cities.size()) return cities.get(index).getName();
+            else return "";
         }
 
         @Override
@@ -329,9 +383,12 @@ public class TravelFromToFragment extends Fragment implements View.OnClickListen
                     .position(new LatLng(cityTo.getLat(), cityTo.getLng()))
                     .title(cityTo.getName()));
         }
+
         if(cityFrom != null && cityFrom.getLat() != 0 && cityTo != null && cityTo.getLat() != 0) {
             publishNextTextView.setEnabled(true);
             publishNextTextView.setBackgroundColor(getResources().getColor(R.color.shipeer));
+
+            if(pathFromTo != null) pathFromTo.remove();
 
             RouteFromToTask routeTask = new RouteFromToTask(this, cityFrom, cityTo);
             routeTask.execute();

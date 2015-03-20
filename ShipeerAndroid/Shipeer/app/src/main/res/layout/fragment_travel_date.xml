@@ -16,29 +16,60 @@
         <include layout="@layout/custom_second_action_bar" />
     </RelativeLayout>
 
-   <RelativeLayout
-       android:id="@+id/calendar_relative"
-       android:layout_width="fill_parent"
-       android:layout_height="400dp"
-       android:layout_below="@+id/top_action_bar">
+    <RelativeLayout
+        android:id="@+id/calendar_relative"
+        android:layout_width="fill_parent"
+        android:layout_height="380dp"
+        android:layout_below="@+id/top_action_bar">
 
-       <CalendarView
-           android:layout_width="fill_parent"
-           android:layout_height="fill_parent"
-           android:id="@+id/calendarView"
-           android:layout_alignParentRight="true"
-           android:layout_alignParentEnd="true" />
+        <!--<CalendarView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/calendarView"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" /> -->
 
-   </RelativeLayout>
+        <com.squareup.timessquare.CalendarPickerView
+            android:id="@+id/calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/travel_date_textView"
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_profile_settings"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/date"
         android:layout_below="@+id/calendar_relative"
-        android:textSize="20sp"
-        android:layout_margin="15dp"/>
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        card_view:cardCornerRadius="4dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/travel_date_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/time"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="10dp"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/travel_date_select_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="@string/time"
+                android:textStyle="bold"
+                android:layout_margin="10dp"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
     <TextView
         android:id="@+id/publishNext"

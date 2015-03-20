@@ -15,12 +15,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -41,6 +43,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
 
     private AutoCompleteTextView autoCompViewFrom;
     private AutoCompleteTextView autoCompViewTo;
+    private Button searchButton;
 
     //Drawer layout objects
     private final DrawerLayout drawer = null;
@@ -55,6 +58,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
     //View variables
     private LinearLayout flipView;
     private ImageView imageView;
+    private TextView publishTravelTextView;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -118,13 +122,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
             public void afterTextChanged(Editable s) {}
         });
 
-        /**ApiRequest request = (ApiRequest) new ApiRequest() {
-            @Override
-            protected void onPostExecute(String result) {
-                super.onPostExecute(result);
-                Log.d("AsynTask", "finish");
-            }
-        }.execute("http://google.es");**/
+        searchButton = (Button) view.findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(this);
+
+        publishTravelTextView = (TextView) view.findViewById(R.id.publishTravel);
+        publishTravelTextView.setOnClickListener(this);
 
         return view;
     }
@@ -257,11 +259,49 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Adap
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.flip_view:
-                String aux = autoCompViewFrom.getText().toString();
-                autoCompViewFrom.setText(autoCompViewTo.getText().toString() + "");
-                autoCompViewTo.setText(aux + "");
+                flipFromToSearch();
+                break;
+            case R.id.publishTravel:
+                Intent publishTravelIntent = new Intent(getActivity(), PublishTravelActivity.class);
+                startActivity(publishTravelIntent);
+                this.getActivity().overridePendingTransition(R.anim.right_to_left_slide_in, R.anim.zoom_out);
+                break;
+            case R.id.searchButton:
+                searchTravels();
                 break;
         }
+    }
+
+    private void searchTravels() {
+        String cityFrom = autoCompViewFrom.getText().toString();
+        String cityTo = autoCompViewTo.getText().toString();
+
+        if(cityFrom != null && !cityFrom.isEmpty() && cityTo != null && !cityTo.isEmpty()) {
+            // SEARCH FOR TRAVELS USING API
+        } else {
+            Toast.makeText(getActivity(), getString(R.string.missing_info), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void flipFromToSearch() {
+        String aux = autoCompViewFrom.getText().toString();
+        autoCompViewFrom.setFocusable(false);
+        autoCompViewTo.setFocusable(false);
+
+        autoCompViewFrom.setEnabled(false);
+        autoCompViewTo.setEnabled(false);
+
+        autoCompViewFrom.setText(autoCompViewTo.getText().toString() + "");
+        autoCompViewTo.setText(aux + "");
+
+        autoCompViewFrom.setFocusable(true);
+        autoCompViewTo.setFocusable(true);
+
+        autoCompViewFrom.setFocusableInTouchMode(true);
+        autoCompViewTo.setFocusableInTouchMode(true);
+
+        autoCompViewFrom.setEnabled(true);
+        autoCompViewTo.setEnabled(true);
     }
 
     @Override
