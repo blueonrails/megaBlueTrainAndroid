@@ -11,6 +11,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
     <application
         android:name="com.shipeer.app.GlobalState"
         android:allowBackup="true"
@@ -55,8 +58,27 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="com.shipeer.app.PublishTravelActivity"
-            android:label="@string/title_activity_publish_travel"
+            android:name=".EditOwnSimpleTripActivity"
+            android:label="@string/title_activity_edit_own_trip"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".EditOwnRecurrentTripActivity"
+            android:label="@string/title_activity_edit_own_trip"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".PublishTripActivity"
+            android:label="@string/title_activity_publish_trip"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.shipeer.app.LoginActivity"
+            android:label="@string/title_activity_login"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
         </activity>
@@ -64,6 +86,10 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCJFxqrPUShcgQuTF7W4Pc29C0Btr16ej4"/>
+
+        <meta-data
+            android:name="CLOUDINARY_URL"
+            android:value="cloudinary://483578462679859:x2bLqxkqUp3jAUyuXe8VJNGCZCk@shipeers"/>
     </application>
 
 </manifest>

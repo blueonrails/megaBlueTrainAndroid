@@ -1,47 +1,60 @@
 package com.shipeer.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
+import com.cloudinary.android.Utils;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import model.RoundedImageView;
+import async.EditUserProfileTask;
+import async.interfaces.OnEditUserProfileTaskCompleted;
+import async.interfaces.OnProfilePictureUploaderTaskCompleted;
+import async.ProfilePictureUploaderTask;
+import model.CircleTransform;
 
 
-public class UserEditProfileActivity extends Activity implements View.OnClickListener {
+public class UserEditProfileActivity extends Activity implements View.OnClickListener, OnProfilePictureUploaderTaskCompleted, OnEditUserProfileTaskCompleted {
 
     private static int RESULT_LOAD_IMAGE = 1;
+    private static int REQUEST_TAKE_PHOTO = 0;
+
+    private String selectedImagePath;
 
     private TextView actionBarTitleTextView;
     private ImageView backImageView;
 
     private ImageView profilePictureCircularImageView;
     private Button changeProfilePicturButton;
+    private ProgressBar profilePictureProgressBar;
+    private File photoCameraFile;
 
     private EditText nameEditText;
     private EditText surnameEditText;
@@ -56,6 +69,7 @@ public class UserEditProfileActivity extends Activity implements View.OnClickLis
     private String baseUserProfilePicture = "";
 
     private Uri uriImage;
+    private Cloudinary cloudinary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +92,36 @@ public class UserEditProfileActivity extends Activity implements View.OnClickLis
         }
 
         profilePictureCircularImageView = (ImageView) findViewById(R.id.profile_picture_edit_circularImageView);
+
+        String baseUserProfilePictureId = GlobalState.getBaseUserProfilePictureId();
+        String baseUserProfilePictureVersion = GlobalState.getBaseUserProfilePictureVersion();
+
+        if(baseUserProfilePictureId != null && !baseUserProfilePictureId.isEmpty() && baseUserProfilePictureVersion != null && !baseUserProfilePictureVersion.isEmpty()) {
+            cloudinary = new Cloudinary(Utils.cloudinaryUrlFromContext(this));
+            String url = cloudinary.url().transformation(new Transformation().width(200).height(200).crop("fill")).version(baseUserProfilePictureVersion).generate(baseUserProfilePictureId);
+            Log.d("URL", url);
+            profilePictureCircularImageView.setImageResource(0);
+            profilePictureCircularImageView.setImageDrawable(null);
+            Picasso.with(this).load(url).transform(new CircleTransform()).into(profilePictureCircularImageView);
+        }
+        else {
+            cloudinary = new Cloudinary(Utils.cloudinaryUrlFromContext(this.getApplicationContext()));
+
+            if (baseUserProfilePicture != null) {
+                Log.d("picture", baseUserProfilePicture);
+                //File file = new File(baseUserProfilePicture);
+                //profilePictureCircularImageView.setImageDrawable(Drawable.createFromPath(file.getAbsolutePath()));
+
+                String url = cloudinary.url().transformation(new Transformation().width(200).height(200).crop("fill")).generate(baseUserProfilePicture);
+                Log.d("URL", url);
+                Picasso.with(this).load(url).into(profilePictureCircularImageView);
+            }
+        }
+
         changeProfilePicturButton = (Button) findViewById(R.id.change_profile_picture_button);
         changeProfilePicturButton.setOnClickListener(this);
+
+        profilePictureProgressBar = (ProgressBar) findViewById(R.id.profile_picture_progressBar);
 
         nameEditText = (EditText) findViewById(R.id.name_editText);
         surnameEditText = (EditText) findViewById(R.id.surname_editText);
@@ -90,13 +132,6 @@ public class UserEditProfileActivity extends Activity implements View.OnClickLis
         surnameEditText.setText(surname);
         emailEditText.setText(email);
         phoneEditText.setText(phone);
-
-        if (baseUserProfilePicture != null) {
-            Log.d("picture", baseUserProfilePicture);
-            //File file = new File(baseUserProfilePicture);
-            //profilePictureCircularImageView.setImageDrawable(Drawable.createFromPath(file.getAbsolutePath()));
-            Picasso.with(this).load(baseUserProfilePicture).into(profilePictureCircularImageView);
-        }
 
         saveButton = (Button) findViewById(R.id.save_profile_edit_button);
         saveButton.setOnClickListener(this);
@@ -110,6 +145,7 @@ public class UserEditProfileActivity extends Activity implements View.OnClickLis
                 break;
             case R.id.save_profile_edit_button:
                 saveProfile();
+                saveProfileIntoServer();
                 break;
             case R.id.drawer_indicator:
                 this.onBackPressed();
@@ -117,19 +153,89 @@ public class UserEditProfileActivity extends Activity implements View.OnClickLis
         }
     }
 
-    private void changeProfilePicture() {
-        Intent pickImageIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+    private void saveProfileIntoServer() {
+        SharedPreferences preferences = GlobalState.getSharedPreferences();
+        String userId = preferences.getString("BaseUserId", null);
+        String userKey = preferences.getString("BaseUserKey", null);
+        String userSecret = preferences.getString("BaseUserSecret", null);
 
-        pickImageIntent.setType("image/*");
-        pickImageIntent.putExtra("crop", "true");
-        /*pickImageIntent.putExtra("outputX", 200);
-        pickImageIntent.putExtra("outputY", 200);*/
-        pickImageIntent.putExtra("aspectX", 1);
-        pickImageIntent.putExtra("aspectY", 1);
-        //pickImageIntent.putExtra("scale", true);
-        //pickImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriWhereToStore);
-        //pickImageIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        startActivityForResult(pickImageIntent, RESULT_LOAD_IMAGE);
+        if(userId != null && userKey != null && userSecret != null) {
+            String[] form = new String[10];
+            form[0] = userId; //User id
+            form[1] = userKey; //User key
+            form[2] = userSecret; //User secret
+            form[3] = nameEditText.getText().toString(); //User firstName
+            form[4] = surnameEditText.getText().toString(); //User lastName
+            form[5] = phoneEditText.getText().toString(); //User phone
+            form[6] = 1 + ""; //User gender
+            form[7] = emailEditText.getText().toString(); //User email
+            form[8] = GlobalState.getBaseUserProfilePictureId();
+            form[9] = GlobalState.getBaseUserProfilePictureVersion();
+
+            EditUserProfileTask editUserProfileTask = new EditUserProfileTask(this);
+            editUserProfileTask.execute(form);
+        }
+    }
+
+    private void changeProfilePicture() {
+        MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title(R.string.choose_profile_pic)
+                .items(R.array.profile_pic_options)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        if (which == 0) {
+                            Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
+                                // Create the File where the photo should go
+                                photoCameraFile = null;
+                                try {
+                                    photoCameraFile = createImageFile();
+                                } catch (IOException ex) {
+                                    // Error occurred while creating the File
+                                }
+                                // Continue only if the File was successfully created
+                                if (photoCameraFile != null) {
+                                    takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                                            Uri.fromFile(photoCameraFile));
+                                    startActivityForResult(takePhotoIntent, REQUEST_TAKE_PHOTO);
+                                }
+                            }
+
+                        } else if (which == 1) {
+                            // Create the File where the photo should go
+                            photoCameraFile = null;
+                            try {
+                                photoCameraFile = createImageFile();
+                            } catch (IOException ex) {
+                                // Error occurred while creating the File
+                            }
+                            // Continue only if the File was successfully created
+                            if (photoCameraFile != null) {
+                                Intent intent = new Intent();
+                                intent.setType("image/*");
+                                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoCameraFile));
+                                intent.setAction(Intent.ACTION_GET_CONTENT);
+                                startActivityForResult(Intent.createChooser(intent,
+                                        "Select Picture"), RESULT_LOAD_IMAGE);
+
+                                /**Intent pickImageIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                pickImageIntent.setType("image/*");
+                                pickImageIntent.putExtra("crop", "true");
+                                //pickImageIntent.putExtra("outputX", 200);
+                                //pickImageIntent.putExtra("outputY", 200);
+                                //pickImageIntent.putExtra("aspectX", 1);
+                                //pickImageIntent.putExtra("aspectY", 1);
+                                //pickImageIntent.putExtra("scale", true);
+                                pickImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoCameraFile));
+                                //pickImageIntent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+                                startActivityForResult(pickImageIntent, RESULT_LOAD_IMAGE);**/
+                            }
+                        }
+                    }
+                }).build();
+
+        dialog.show();
     }
 
     private void saveProfile() {
@@ -145,7 +251,7 @@ public class UserEditProfileActivity extends Activity implements View.OnClickLis
             editor.putString("BaseUserSurname", surname);
         }
         email = emailEditText.getText().toString();
-        if (email != null && !email.isEmpty()) {
+        if (email != null && !email.isEmpty() && isEmailValid(email)) {
             editor.putString("BaseUserEmail", email);
         }
         phone = phoneEditText.getText().toString();
@@ -153,10 +259,20 @@ public class UserEditProfileActivity extends Activity implements View.OnClickLis
             editor.putString("BaseUserPhone", phone);
         }
         editor.commit();
+    }
 
-        Toast.makeText(this, getString(R.string.saved), Toast.LENGTH_SHORT).show();
+    public static boolean isEmailValid(String email) {
+        boolean isValid = false;
 
-        this.finish();
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches()) {
+            isValid = true;
+        }
+        return isValid;
     }
 
     @Override
@@ -174,55 +290,125 @@ public class UserEditProfileActivity extends Activity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_CANCELED) {
-            if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-                Bundle extras = data.getExtras();
-                if (extras != null) {
-                    Uri uri = data.getData();
-                    Log.d("TAG", "datae" + uri);
+        if (requestCode == RESULT_LOAD_IMAGE) {
+            if (resultCode != RESULT_CANCELED) {
+                if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+                    Uri selectedImageUri = data.getData();
 
-                    Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-                    cursor.moveToFirst();
+                    if(selectedImageUri != null ) {
+                        // try to retrieve the image from the media store first
+                        // this will only work for images selected from gallery
+                        String[] projection = { MediaStore.Images.Media.DATA };
+                        Cursor cursor = managedQuery(selectedImageUri, projection, null, null, null);
+                        if( cursor != null ){
+                            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                            cursor.moveToFirst();
+                            selectedImagePath = cursor.getString(column_index);
+                        }
+                        else {
+                            // this is our fallback here
+                            selectedImagePath =  selectedImageUri.getPath();
+                        }
 
-                    int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-                    String path = cursor.getString(idx);
-                    Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
+                        if(checkInternetConnection()) {
+                            profilePictureProgressBar.setVisibility(View.VISIBLE);
+                            profilePictureProgressBar.setProgress(50);
 
-                    saveProfilePicture(path);
-                    copyProfilePictureToShipeerFolder(path);
+                            SharedPreferences preferences = GlobalState.getSharedPreferences();
+                            String userId = preferences.getString("BaseUserId", null);
 
-                    Bitmap photo = extras.getParcelable("data");
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    photo.compress(Bitmap.CompressFormat.JPEG, 75, stream);
-                    // The stream to write to a file or directly using the
-                    ImageView imageView = (ImageView) findViewById(R.id.profile_picture_edit_circularImageView);
-                    imageView.setImageBitmap(photo);
+                            if(userId != null && selectedImagePath != null && !selectedImagePath.isEmpty()) {
+                                Long timestamp = System.currentTimeMillis();
+                                String timeStampString = timestamp.toString();
+
+                                ProfilePictureUploaderTask profilePictureUploaderTask = new ProfilePictureUploaderTask(this, cloudinary);
+                                profilePictureUploaderTask.execute(selectedImagePath, userId, timeStampString);
+
+                                saveProfileIntoServer();
+                            }
+                        }
+                        else {
+                            showNoInternetConnectionError();
+                        }
+                    }
                 }
+            }
+        }
+        else if (requestCode == REQUEST_TAKE_PHOTO) {
+            if (resultCode == RESULT_OK) {
+                if(checkInternetConnection()) {
+                    profilePictureProgressBar.setVisibility(View.VISIBLE);
+                    profilePictureProgressBar.setProgress(50);
+
+                    SharedPreferences preferences = GlobalState.getSharedPreferences();
+                    String userId = preferences.getString("BaseUserId", null);
+
+                    if(userId != null && !userId.isEmpty()) {
+                        Long timestamp = System.currentTimeMillis();
+                        String timeStampString = timestamp.toString();
+
+                        ProfilePictureUploaderTask profilePictureUploaderTask = new ProfilePictureUploaderTask(this, cloudinary);
+                        profilePictureUploaderTask.execute(photoCameraFile.getAbsolutePath(), userId, timeStampString);
+                    }
+                }
+                else {
+                    showNoInternetConnectionError();
+                }
+            } else if (resultCode == RESULT_CANCELED) {
+                // User cancelled the image capture
+                //finish();
             }
         }
     }
 
-    private void copyProfilePictureToShipeerFolder(String path) {
-        try {
-            File sdFile = Environment.getExternalStorageDirectory();
-            File dataFile = Environment.getDataDirectory();
-            if (sdFile.canWrite()) {
-                String sourceImagePath = path;
-                String destinationImagePath = sdFile.getAbsolutePath() + "/shipeer/profilePics/profile.jpg";
-                File source = new File(dataFile, sourceImagePath);
-                File destination = new File(sdFile, destinationImagePath);
-                destination.mkdirs();
-                if (source.exists()) {
-                    FileChannel src = new FileInputStream(source).getChannel();
-                    FileChannel dst = new FileOutputStream(destination).getChannel();
-                    dst.transferFrom(src, 0, src.size());
-                    src.close();
-                    dst.close();
+    @Override
+    public void onProfilePictureUploaderTaskCompleted(String[] res) {
+        if(res != null && res.length == 2) {
+            String picId = res[0];
+            String picVersion = res[1];
+            Log.d("IMAGE", "UPLOADED ID ->" + picId);
+
+            String url = cloudinary.url().transformation(new Transformation().width(200).height(200).crop("fill")).version(picVersion).generate(picId);
+            //String url = cloudinary.url().transformation(new Transformation().width(200).height(200).crop("fill")).generate(res) + ".jpg";
+            Log.d("URL", url);
+
+            profilePictureCircularImageView.setImageResource(0);
+            profilePictureCircularImageView.setImageDrawable(null);
+            Picasso.with(this).load(url).transform(new CircleTransform()).into(profilePictureCircularImageView);
+
+            Picasso.with(this).load(url).into(profilePictureCircularImageView, new Callback() {
+                @Override
+                public void onSuccess() {
+                    profilePictureProgressBar.setVisibility(View.GONE);
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+                @Override
+                public void onError() {
+                    profilePictureProgressBar.setVisibility(View.GONE);
+                }
+            });
+
+            saveProfilePicture(url);
+            saveProfileIntoServer();
         }
+        else {
+            Log.d("IMAGE", " NOT UPLOADED");
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "shipeer_pic";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                null,//".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        return image;
     }
 
     private void saveProfilePicture(String path) {
@@ -230,5 +416,27 @@ public class UserEditProfileActivity extends Activity implements View.OnClickLis
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("BaseUserProfilePicture", path);
         editor.commit();
+    }
+
+    public boolean checkInternetConnection() {
+        ConnectivityManager conMgr = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+        if (netInfo == null)
+            return false;
+        if (!netInfo.isConnected())
+            return false;
+        if (!netInfo.isAvailable())
+            return false;
+        return true;
+    }
+
+    private void showNoInternetConnectionError() {
+        Toast.makeText(this, getString(R.string.no_internet_error), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onEditUserProfileTaskCompleted(String[] result) {
+        Toast.makeText(this, getString(R.string.saved), Toast.LENGTH_SHORT).show();
+        this.onBackPressed();
     }
 }
