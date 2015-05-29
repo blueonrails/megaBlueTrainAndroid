@@ -6,13 +6,16 @@
     android:background="#ffffff"
     android:orientation="horizontal">
 
+    <LinearLayout
+        android:focusable="true" android:focusableInTouchMode="true"
+        android:layout_width="0px" android:layout_height="0px"/>
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:layout_weight="20"
+        android:layout_weight="16"
         android:background="#ffffff">
 
         <AutoCompleteTextView
@@ -20,16 +23,20 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
+            android:paddingLeft="20dp"
             android:background="#00000000"
             android:hint="@string/from"
-            android:tag="cityFrom"/>
+            android:tag="cityFrom"
+            android:nextFocusUp="@id/autoCompleteTextViewFrom"
+            android:nextFocusLeft="@id/autoCompleteTextViewFrom"/>
 
         <!-- Horizontal line -->
         <View
             android:id="@+id/gray_line"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_below="@+id/autoCompleteTextViewFrom"
             android:background="@color/light_gray" />
 
@@ -38,26 +45,28 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/gray_line"
-            android:layout_marginLeft="10dp"
+            android:paddingLeft="20dp"
             android:layout_marginTop="10dp"
             android:background="#00000000"
             android:hint="@string/to"
-            android:tag="cityTo"/>
+            android:tag="cityTo"
+            android:nextFocusUp="@id/autoCompleteTextViewTo"
+            android:nextFocusLeft="@id/autoCompleteTextViewTo"/>
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/flip_view"
         android:layout_width="180dp"
         android:layout_height="fill_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="80"
-        android:background="@color/shipeer"
+        android:layout_weight="84"
+        android:background="@color/shipeer_kazan"
         android:gravity="center">
 
         <ImageView
+            android:id="@+id/flip_arrows_imageView"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/flip_128" />
+            android:src="@drawable/change_way" />
 
     </LinearLayout>
 </LinearLayout>

@@ -1,0 +1,408 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trip_date_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    tools:context="com.shipeer.app.TripDateFragment">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/top_action_bar"
+        android:layout_marginBottom="58dp"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <RelativeLayout
+                android:id="@+id/recurrent_trip_go_relativeLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp">
+
+                <TextView
+                    android:id="@+id/go_text_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/go"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/go_trip_from_to_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/go_text_textView"
+                    android:text="Valencia - Madrid" />
+
+                <LinearLayout
+                    android:id="@+id/week_go_linearLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/go_trip_from_to_textView"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <ToggleButton
+                        android:id="@+id/monday_go_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_week_recurrent"
+                        android:gravity="center"
+                        android:textOff="L"
+                        android:textOn="L" />
+
+                    <ToggleButton
+                        android:id="@+id/tuesday_go_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_week_recurrent"
+                        android:gravity="center"
+                        android:textOff="M"
+                        android:textOn="M" />
+
+                    <ToggleButton
+                        android:id="@+id/wednesday_go_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_week_recurrent"
+                        android:gravity="center"
+                        android:textOff="X"
+                        android:textOn="X" />
+
+                    <ToggleButton
+                        android:id="@+id/thursday_go_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_week_recurrent"
+                        android:gravity="center"
+                        android:textOff="J"
+                        android:textOn="J" />
+
+                    <ToggleButton
+                        android:id="@+id/friday_go_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_week_recurrent"
+                        android:gravity="center"
+                        android:textOff="V"
+                        android:textOn="V" />
+
+                    <ToggleButton
+                        android:id="@+id/saturday_go_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_week_recurrent"
+                        android:gravity="center"
+                        android:textOff="S"
+                        android:textOn="S" />
+
+                    <ToggleButton
+                        android:id="@+id/sunday_go_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_week_recurrent"
+                        android:gravity="center"
+                        android:textOff="D"
+                        android:textOn="D" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/go_time_selection_cardView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/week_go_linearLayout"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    card_view:cardCornerRadius="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/trip_go_time_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_margin="10dp"
+                            android:text="@string/time"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/trip_go_time_select_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_margin="10dp"
+                            android:text="14:00"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/recurrent_trip_back_relativeLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/recurrent_trip_go_relativeLayout"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/back_text_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/back"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/back_trip_from_to_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_toRightOf="@+id/back_text_textView"
+                    android:text="Madrid - Valencia" />
+
+                <LinearLayout
+                    android:id="@+id/week_back_linearLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/back_trip_from_to_textView"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <ToggleButton
+                        android:id="@+id/monday_back_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_week_recurrent"
+                        android:gravity="center"
+                        android:textOff="L"
+                        android:textOn="L" />
+
+                    <ToggleButton
+                        android:id="@+id/tuesday_back_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_week_recurrent"
+                        android:gravity="center"
+                        android:textOff="M"
+                        android:textOn="M" />
+
+                    <ToggleButton
+                        android:id="@+id/wednesday_back_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_week_recurrent"
+                        android:gravity="center"
+                        android:textOff="X"
+                        android:textOn="X" />
+
+                    <ToggleButton
+                        android:id="@+id/thursday_back_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_week_recurrent"
+                        android:gravity="center"
+                        android:textOff="J"
+                        android:textOn="J" />
+
+                    <ToggleButton
+                        android:id="@+id/friday_back_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_week_recurrent"
+                        android:gravity="center"
+                        android:textOff="V"
+                        android:textOn="V" />
+
+                    <ToggleButton
+                        android:id="@+id/saturday_back_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_week_recurrent"
+                        android:gravity="center"
+                        android:textOff="S"
+                        android:textOn="S" />
+
+                    <ToggleButton
+                        android:id="@+id/sunday_back_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_week_recurrent"
+                        android:gravity="center"
+                        android:textOff="D"
+                        android:textOn="D" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/back_time_selection_cardView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/week_back_linearLayout"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    card_view:cardCornerRadius="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/trip_back_time_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_margin="10dp"
+                            android:text="@string/time"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/trip_back_time_select_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_margin="10dp"
+                            android:text="14:00"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
+
+
+            <!-- FROM DATE, TO DATE -->
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+
+                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/date_go_cardView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="6dp"
+                    card_view:cardCornerRadius="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/trip_go_date_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_margin="10dp"
+                            android:text="@string/fromX"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/trip_go_date_select_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_margin="10dp"
+                            android:text="Miércoles 24 de Mayo"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/date_back_cardView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/date_go_cardView"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="6dp"
+                    card_view:cardCornerRadius="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/trip_back_date_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_margin="10dp"
+                            android:text="@string/toX"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/trip_back_date_select_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_margin="10dp"
+                            android:text="Miércoles 24 de Abril"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/publishNext"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/darker_gray"
+        android:gravity="center"
+        android:text="@string/contin"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+</RelativeLayout>

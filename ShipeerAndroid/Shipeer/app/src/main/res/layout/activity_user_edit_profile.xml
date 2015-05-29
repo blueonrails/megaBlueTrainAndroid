@@ -35,6 +35,16 @@
                     android:layout_margin="16dp"
                     android:src="@drawable/shipeer_logo" />
 
+                <ProgressBar
+                    android:id="@+id/profile_picture_progressBar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    android:layout_alignLeft="@+id/profile_picture_edit_circularImageView"
+                    android:layout_alignTop="@+id/profile_picture_edit_circularImageView"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="25dp"/>
 
                 <model.RippleView
                     android:id="@+id/more"

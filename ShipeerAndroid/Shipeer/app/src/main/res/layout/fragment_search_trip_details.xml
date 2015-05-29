@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/trip_info_details_relativeLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/trip_date_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="viernes 17 de abril 16:00" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/trip_date_textView"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:id="@+id/trip_city_from_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:text="Valencia, España"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/simple_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_toRightOf="@+id/trip_city_from_textView"
+                            android:text="-->"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/trip_city_to_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/simple_arrow"
+                            android:text="Madrid, España"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <!-- PRICES -->
+                <RelativeLayout
+                    android:id="@+id/trip_prices_relativeLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/trip_info_details_relativeLayout"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center">
+
+                    <RelativeLayout
+                        android:id="@+id/small_size_relativeLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true">
+
+                        <TextView
+                            android:id="@+id/small_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/small"
+                            android:layout_centerHorizontal="true"/>
+
+                        <ImageView
+                            android:id="@+id/icon_small_package_imageView"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_below="@+id/small_textView"
+                            android:layout_marginTop="2dp"
+                            android:src="@drawable/small_size_128"
+                            android:layout_centerHorizontal="true"/>
+
+                        <TextView
+                            android:id="@+id/price_small_package_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_below="@+id/icon_small_package_imageView"
+                            android:layout_marginTop="2dp"
+                            android:text="5€"
+                            android:textSize="16sp"
+                            android:layout_centerHorizontal="true"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/medium_size_relativeLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/small_size_relativeLayout"
+                        android:layout_marginLeft="16dp"
+                        android:layout_centerVertical="true">
+
+                        <TextView
+                            android:id="@+id/medium_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/medium"
+                            android:layout_centerHorizontal="true"/>
+
+                        <ImageView
+                            android:id="@+id/icon_medium_package_imageView"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_below="@+id/medium_textView"
+                            android:layout_marginTop="2dp"
+                            android:src="@drawable/medium_size_128"
+                            android:layout_centerHorizontal="true"/>
+
+                        <TextView
+                            android:id="@+id/price_medium_package_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_below="@+id/icon_medium_package_imageView"
+                            android:layout_marginTop="2dp"
+                            android:layout_centerHorizontal="true"
+                            android:text="8€"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/big_size_relativeLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/medium_size_relativeLayout"
+                        android:layout_marginLeft="16dp"
+                        android:layout_centerVertical="true">
+
+                        <TextView
+                            android:id="@+id/big_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/big"
+                            android:layout_centerHorizontal="true"/>
+
+                        <ImageView
+                            android:id="@+id/icon_big_package_imageView"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_below="@id/big_textView"
+                            android:layout_marginTop="2dp"
+                            android:src="@drawable/big_size_128"
+                            android:layout_centerHorizontal="true"/>
+
+                        <TextView
+                            android:id="@+id/price_big_package_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_below="@+id/icon_big_package_imageView"
+                            android:layout_marginTop="2dp"
+                            android:layout_centerHorizontal="true"
+                            android:text="12€"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/extra_big_size_relativeLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/big_size_relativeLayout"
+                        android:layout_marginLeft="16dp"
+                        android:layout_centerVertical="true">
+
+                        <TextView
+                            android:id="@+id/extra_big_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/extra_big"
+                            android:layout_centerHorizontal="true"/>
+
+                        <ImageView
+                            android:id="@+id/icon_extra_big_package_imageView"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_below="@id/extra_big_textView"
+                            android:layout_marginTop="2dp"
+                            android:src="@drawable/extra_big_size_128"
+                            android:layout_centerHorizontal="true"/>
+
+                        <TextView
+                            android:id="@+id/price_extra_big_package_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_below="@+id/icon_extra_big_package_imageView"
+                            android:layout_marginTop="2dp"
+                            android:layout_centerHorizontal="true"
+                            android:text="20€"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <!-- DESCRIPTION -->
+                <RelativeLayout
+                    android:id="@+id/trip_description_relativeLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/trip_prices_relativeLayout"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp">
+
+                    <TextView
+                        android:id="@+id/trip_description_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Description"/>
+                </RelativeLayout>
+
+                <!-- DRIVER PROFILE -->
+                <RelativeLayout
+                    android:id="@+id/trip_driver_details_relativeLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/trip_description_relativeLayout"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp">
+
+                    <ImageView
+                        android:id="@+id/driver_profile_pic_imageView"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/logo_kazan_150" />
+
+                    <TextView
+                        android:id="@+id/driver_name_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_toRightOf="@+id/driver_profile_pic_imageView"
+                        android:text="Miguel Garcia"
+                        android:textSize="16dp" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="3dp"
+                        android:background="@drawable/shape_rounded"
+                        android:src="@drawable/arrow_back_white_128" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <!-- BOOKING -->
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/shipeer_lima"
+                android:layout_above="@+id/trip_map_details_relativeLayout">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_phone_white600_24dp"
+                    android:layout_toLeftOf="@+id/booking_textView"
+                    android:layout_marginRight="12dp"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/booking_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:background="@color/shipeer_lima"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:text="@string/call"
+                    android:textColor="@android:color/white"
+                    android:textSize="25sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/trip_map_details_relativeLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:clickable="false"
+                android:longClickable="false">
+
+                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:map="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/map_trip_details"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    map:cameraTargetLat="40.46379740"
+                    map:cameraTargetLng="-3.625463"
+                    map:cameraZoom="4.5" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

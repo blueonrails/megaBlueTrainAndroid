@@ -4,7 +4,9 @@
     <!--<color name="dark_gray">#3d454c</color>
     <color name="dark_gray_pressed">#373e44</color>
     <color name="darker_gray">#1f2226</color>-->
-    <color name="shipeer">#27CBA2</color>
+    <color name="shipeer_kazan">#007A87</color>
     <color name="rippelColor">#FFFFFF</color>
     <color name="back">#ff2e2e2e</color>
+    <color name="shipeer_beach">#ffb400</color>
+    <color name="shipeer_lima">#3fb34f</color>
 </resources>

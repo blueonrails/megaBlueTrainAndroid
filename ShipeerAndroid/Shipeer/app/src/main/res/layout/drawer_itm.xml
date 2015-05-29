@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="72dp">
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="72dp"/>
+
+    <!--<ImageView
+        android:id="@+id/icon_item"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp"
+        android:layout_centerVertical="true"
+        android:visibility="visible"/>-->
+
+    <ImageView
+        android:id="@+id/icon_item"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/shape_rounded"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/title_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="72dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:text="Publicar viaje"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>
+
