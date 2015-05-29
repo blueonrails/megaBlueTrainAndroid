@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="profile_pic_options">
+        <item>Hacer una foto</item>
+        <item>Escoger de la galería</item>
+    </array>
+    <string-array name="contact_options">
+        <item>Mandar un email a Shipeer</item>
+        <item>Puntuar esta app</item>
+    </string-array>
+</resources>

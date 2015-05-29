@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="84dp">
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="84dp" />
+
+    <!--<ImageView
+        android:id="@+id/carrier_profile_pic_imageView"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/shape_rounded"
+        android:src="@drawable/logo_kazan_150"
+        android:scaleType="fitXY"
+        android:layout_marginLeft="16dp"
+        android:layout_centerVertical="true"/> -->
+
+    <ImageView
+        android:id="@+id/driver_profile_pic_imageView"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/logo_kazan_150"
+        android:scaleType="fitXY"
+        android:layout_marginLeft="16dp"
+        android:layout_centerVertical="true"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="72dp"
+        android:layout_marginRight="16dp"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical">
+
+        <RelativeLayout
+            android:id="@+id/from_to_relative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/trip_city_from_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Valencia"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/simple_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-->"
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/trip_city_from_textView"/>
+
+            <TextView
+                android:id="@+id/trip_city_to_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Madrid"
+                android:textSize="16sp"
+                android:layout_toRightOf="@+id/simple_arrow"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/driver_name_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Miguel Garcia"
+            android:layout_below="@+id/from_to_relative"
+            android:layout_marginTop="4dp"/>
+
+        <!--<TextView
+            android:id="@+id/carrier_secondary_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Mas informacion sobre lo que sea"
+            android:layout_below="@+id/driver_name_textView"/>-->
+
+    </RelativeLayout>
+
+</RelativeLayout>

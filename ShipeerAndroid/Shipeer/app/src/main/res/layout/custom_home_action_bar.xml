@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Action-bar looking view -->
+<?xml version="1.0" encoding="utf-8"?><!-- Action-bar looking view -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/actionbar_dimen"
-    android:background="@color/shipeer">
+    android:background="@color/shipeer_kazan">
 
     <ImageView
         android:id="@+id/drawer_indicator"
@@ -26,5 +25,22 @@
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/publish_trip_icon_relativeLayout"
+        android:layout_width="@dimen/actionbar_dimen"
+        android:layout_height="@dimen/actionbar_dimen"
+        android:layout_gravity="end|center_vertical"
+        android:paddingRight="12dp">
+
+        <ImageView
+            android:id="@+id/publish_trip_icon_imageView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/add" />
+
+    </RelativeLayout>
 
 </FrameLayout>

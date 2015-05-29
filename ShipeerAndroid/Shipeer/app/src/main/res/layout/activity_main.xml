@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/test"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <!-- Action-bar looking view -->
+        <include
+            android:id="@+id/custom_home_action_bar"
+            layout="@layout/custom_home_action_bar" />
+
+    </RelativeLayout>
+
+    <!-- Content -->
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/test">
+
+        <FrameLayout
+            android:id="@+id/main_fragment_container_frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- android:layout_marginTop="@dimen/actionbar_dimen" -->
+        </FrameLayout>
+
+        <!-- The navigation drawer -->
+        <ListView
+            android:id="@+id/drawer_items_listView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="start"
+            android:layout_marginRight="56dp"
+            android:background="@android:color/white"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:textColor="#424242" />
+
+    </android.support.v4.widget.DrawerLayout>
+</RelativeLayout>

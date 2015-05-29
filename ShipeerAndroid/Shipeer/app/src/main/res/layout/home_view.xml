@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true"
-    android:orientation="vertical">
-
-    <!-- Action-bar looking view -->
-    <include layout="@layout/custom_home_action_bar" />
-
-    <!-- Content -->
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+    android:background="?android:attr/colorBackground">
 
         <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:fillViewport="true">
 
             <!-- The main content view -->
@@ -28,115 +15,53 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <!--<View
+                    android:id="@+id/useless_view"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_centerInParent="true" /> -->
+
                 <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp">
 
-                    <LinearLayout
-                        android:id="@+id/FromToLinearLayout"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="#ffffff">
-
-                        <RelativeLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="20"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:background="#ffffff">
-
-                            <AutoCompleteTextView
-                                android:id="@+id/autoCompleteTextViewFrom"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginLeft="10dp"
-                                android:background="#00000000"
-                                android:hint="@string/from"/>
-
-                            <!-- Horizontal line -->
-                            <View
-                                android:id="@+id/gray_line"
-                                android:layout_width="fill_parent"
-                                android:layout_height="1dp"
-                                android:layout_below="@+id/autoCompleteTextViewFrom"
-                                android:background="@color/light_gray" />
-
-                            <AutoCompleteTextView
-                                android:id="@+id/autoCompleteTextViewTo"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/gray_line"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginTop="10dp"
-                                android:background="#00000000"
-                                android:hint="@string/to"/>
-                        </RelativeLayout>
-
-                        <LinearLayout
-                            android:id="@+id/flip_view"
-                            android:layout_width="180dp"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="80"
-                            android:background="@color/shipeer"
-                            android:layout_marginLeft="10dp"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:src="@drawable/flip_128"/>
-
-                        </LinearLayout>
-                    </LinearLayout>
-
+                    <include layout="@layout/from_to_citie_layout" />
 
                     <Button
-                        android:id="@+id/searchButton"
+                        android:id="@+id/search_button"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/FromToLinearLayout"
-                        android:text="@string/search" />
+                        android:background="@color/shipeer_beach"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/search"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white"/>
 
                 </RelativeLayout>
 
-                <RelativeLayout
+                <!--<RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/shipeer">
+                    android:background="@color/shipeer_kazan">
 
                     <TextView
-                        android:id="@+id/publishTravel"
+                        android:id="@+id/publishTrip_textView"
                         android:layout_width="fill_parent"
                         android:layout_height="50dp"
-                        android:background="@color/shipeer"
+                        android:background="@color/shipeer_lima"
                         android:gravity="center"
-                        android:text="@string/publish_travel"
+                        android:text="@string/publish_trip"
                         android:textColor="@android:color/white"
-                        android:textSize="20sp" />
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:visibility="gone"/>
 
-                </RelativeLayout>
+                </RelativeLayout> -->
             </RelativeLayout>
 
         </ScrollView>
 
-        <!-- The navigation drawer -->
-        <ListView
-            android:id="@+id/lista"
-            android:layout_width="220dp"
-            android:layout_height="fill_parent"
-            android:layout_gravity="start"
-            android:background="#424242"
-            android:choiceMode="singleChoice"
-            android:divider="#2E2E2E"
-            android:dividerHeight="2dp"
-            android:textColor="#424242" />
-
-    </android.support.v4.widget.DrawerLayout>
-
- </LinearLayout>
+ </RelativeLayout>

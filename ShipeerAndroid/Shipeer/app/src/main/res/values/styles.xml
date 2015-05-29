@@ -5,4 +5,110 @@
         <!-- Customize your theme here. -->
     </style>
 
+<color name="dsb_progress_color">#ff009688</color>
+<color name="dsb_track_color">#ff939393</color>
+<color name="dsb_disabled_color">#66939393</color>
+<color name="dsb_ripple_color_pressed">#77939393</color>
+<color name="dsb_ripple_color_focused">#99999999</color>
+
+<style name="DefaultSeekBar" parent="android:Widget">
+    <item name="dsb_indicatorTextAppearance">@style/DefaultIndicatorTextAppearance</item>
+    <item name="dsb_progressColor">@color/dsb_progress_color_list</item>
+    <item name="dsb_trackColor">@color/dsb_track_color_list</item>
+    <item name="dsb_rippleColor">@color/dsb_ripple_color_list</item>
+    <item name="dsb_indicatorColor">@color/dsb_progress_color</item>
+    <item name="dsb_indicatorElevation">4dp</item>
+    <item name="dsb_mirrorForRtl">true</item>
+</style>
+
+<style name="DefaultIndicatorTextAppearance" parent="android:TextAppearance.Small">
+    <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+    <item name="android:padding">6dp</item>
+</style>
+
+<style name="CustomFloaterTextAppearance" parent="android:TextAppearance.Small">
+    <item name="android:textSize">9sp</item>
+    <item name="android:textColor">?android:attr/textColorPrimary</item>
+    <item name="android:shadowColor">#FFFF0000</item>
+    <item name="android:shadowRadius">4</item>
+    <item name="android:shadowDx">1</item>
+    <item name="android:shadowDy">3</item>
+</style>
+
+    <!-- FloatingActionButton Style -->
+
+
+    <style name="FloatingEditProfileActionButton" parent="Material.Drawable.Ripple.Touch.Light">
+        <item name="fab_backgroundColor">@color/shipeer_beach</item>
+        <item name="fab_elevation">4dp</item>
+        <item name="rd_delayClick">false</item>
+    </style>
+
+    <style name="FloatingActionButton" parent="Material.Drawable.Ripple.Touch.Light">
+        <item name="fab_backgroundColor">#FFDFDFDF</item>
+        <item name="fab_elevation">4dp</item>
+        <item name="fab_iconLineMorphing">@style/FloatingActionButtonIcon.Light</item>
+        <item name="rd_delayClick">false</item>
+    </style>
+
+    <style name="FloatingWaveActionButton" parent="Material.Drawable.Ripple.Wave.Light">
+        <item name="fab_backgroundColor">#FFDFDFDF</item>
+        <item name="fab_elevation">4dp</item>
+        <item name="fab_iconLineMorphing">@style/FloatingActionButtonIcon.Light</item>
+        <item name="rd_delayClick">false</item>
+    </style>
+
+    <style name="FloatingColorActionButton" parent="Material.Drawable.Ripple.Touch.Light">
+        <item name="rd_rippleColor">#33000000</item>
+        <item name="fab_backgroundColor">#FF2196F3</item>
+        <item name="fab_elevation">4dp</item>
+        <item name="fab_iconLineMorphing">@style/FloatingActionButtonIcon</item>
+        <item name="rd_delayClick">true</item>
+    </style>
+
+    <style name="FloatingWaveColorActionButton" parent="Material.Drawable.Ripple.Wave.Light">
+        <item name="rd_rippleColor">#33000000</item>
+        <item name="fab_backgroundColor">#FF2196F3</item>
+        <item name="fab_elevation">4dp</item>
+        <item name="fab_iconLineMorphing">@style/FloatingActionButtonIcon</item>
+        <item name="rd_delayClick">true</item>
+    </style>
+
+    <style name="FloatingActionButtonIcon" >
+        <item name="lmd_state">@xml/fab_icon_states</item>
+        <item name="lmd_curState">0</item>
+        <item name="lmd_padding">2dp</item>
+        <item name="lmd_animDuration">400</item>
+        <item name="lmd_interpolator">@android:anim/accelerate_decelerate_interpolator</item>
+        <item name="lmd_strokeSize">3dp</item>
+        <item name="lmd_strokeColor">#FFFFFFFF</item>
+        <item name="lmd_strokeCap">butt</item>
+        <item name="lmd_strokeJoin">miter</item>
+        <item name="lmd_clockwise">true</item>
+    </style>-->
+
+    <style name="FloatingActionButtonIcon.Light" parent="FloatingActionButtonIcon">
+        <item name="lmd_strokeColor">#FF000000</item>
+    </style>
+
+    <style name="RadioButtonDrawable" parent="Material.Drawable.RadioButton"/>
+
+    <style name="Material.Drawable.RadioButton">
+        <item name="rbd_width">32dp</item>
+        <item name="rbd_height">32dp</item>
+        <item name="rbd_strokeSize">2dp</item>
+        <item name="rbd_radius">10dp</item>
+        <item name="rbd_innerRadius">5dp</item>
+        <item name="rbd_animDuration">@android:integer/config_mediumAnimTime</item>
+        <item name="rbd_strokeColor">@color/shipeer_kazan</item>
+    </style>
+
+    <style name="DatePicker" parent="Material.Widget.DatePicker">
+        <item name="di_negativeActionTextColor">@color/shipeer_kazan</item>
+        <item name="di_positiveActionTextColor">@color/shipeer_kazan</item>
+        <item name="dp_selectionColor">@color/shipeer_kazan</item>
+        <item name="di_backgroundColor">@android:color/black</item>
+        <item name="dp_headerSecondaryColor">@color/shipeer_beach</item>
+    </style>
+
 </resources>

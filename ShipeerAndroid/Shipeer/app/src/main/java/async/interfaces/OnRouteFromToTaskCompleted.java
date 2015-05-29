@@ -1,4 +1,4 @@
-package async;
+package async.interfaces;
 
 import java.util.HashMap;
 import java.util.List;

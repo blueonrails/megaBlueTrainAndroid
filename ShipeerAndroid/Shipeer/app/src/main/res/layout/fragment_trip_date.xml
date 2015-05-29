@@ -1,0 +1,218 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trip_date_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    tools:context="com.shipeer.app.TripDateFragment">
+
+    <!--<ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/top_action_bar"
+        android:layout_marginBottom="52dp"
+        android:fillViewport="true"> -->
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:id="@+id/go_text_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="6dp"
+                android:textStyle="bold"
+                android:text="@string/go"/>
+
+            <TextView
+                android:id="@+id/go_trip_from_to_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:text="Valencia - Madrid"
+                android:layout_toRightOf="@+id/go_text_textView"/>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/date_go_cardView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="6dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_below="@+id/go_trip_from_to_textView"
+                card_view:cardCornerRadius="4dp">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/trip_go_date_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/departureDate"
+                        android:layout_alignParentLeft="true"
+                        android:layout_margin="10dp"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/trip_go_date_select_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="Miércoles 24 de Mayo"
+                        android:textStyle="bold"
+                        android:layout_margin="10dp"
+                        android:textSize="20sp" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/go_time_selection_cardView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/date_go_cardView"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                card_view:cardCornerRadius="4dp">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/trip_go_time_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/time"
+                        android:layout_alignParentLeft="true"
+                        android:layout_margin="10dp"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/trip_go_time_select_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="14:00"
+                        android:textStyle="bold"
+                        android:layout_margin="10dp"
+                        android:textSize="20sp" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/back_text_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="6dp"
+                android:text="@string/back"
+                android:textStyle="bold"
+                android:layout_below="@+id/go_time_selection_cardView"/>
+
+            <TextView
+                android:id="@+id/back_trip_from_to_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_toRightOf="@+id/back_text_textView"
+                android:layout_below="@+id/go_time_selection_cardView"
+                android:text="Madrid - Valencia"/>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/date_back_cardView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="6dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_below="@+id/back_trip_from_to_textView"
+                card_view:cardCornerRadius="4dp">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/trip_back_date_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/departureDate"
+                        android:layout_alignParentLeft="true"
+                        android:layout_margin="10dp"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/trip_back_date_select_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="Miércoles 24 de Mayo"
+                        android:textStyle="bold"
+                        android:layout_margin="10dp"
+                        android:textSize="20sp" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/back_time_selection_cardView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/date_back_cardView"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                card_view:cardCornerRadius="4dp">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/trip_back_time_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/time"
+                        android:layout_alignParentLeft="true"
+                        android:layout_margin="10dp"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/trip_back_time_select_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="14:00"
+                        android:textStyle="bold"
+                        android:layout_margin="10dp"
+                        android:textSize="20sp" />
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
+    <!--</ScrollView> -->
+
+    <TextView
+        android:id="@+id/publishNext"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/darker_gray"
+        android:gravity="center"
+        android:text="@string/contin"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+</RelativeLayout>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="6dp">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/trip_type_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Viaje de Ida"
+            android:textStyle="bold"
+            android:layout_marginLeft="32dp"
+            android:layout_marginBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/date_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="20/04/2015 12:43"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="6dp"/>
+
+        <RelativeLayout
+            android:id="@+id/from_to_relative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/trip_type_textView"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="16dp">
+
+            <RelativeLayout
+                android:id="@+id/city_from_relativeLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp">
+
+                <ImageView
+                    android:id="@+id/city_from_marker_imageView"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_map_marker_green_48dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/trip_city_from_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/city_from_marker_imageView"
+                    android:layout_marginLeft="6dp"
+                    android:text="Valencia Joaquin Sorolla, Valencia, España"
+                    android:maxLines="3"
+                    android:textSize="16sp"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/city_to_relativeLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/city_from_relativeLayout"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="6dp">
+
+                <ImageView
+                    android:id="@+id/city_to_marker_imageView"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_map_marker_red_48dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/trip_city_to_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/city_to_marker_imageView"
+                    android:layout_marginLeft="6dp"
+                    android:text="Madrid, España"
+                    android:maxLines="3"
+                    android:textSize="16sp"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
