@@ -117,8 +117,9 @@
     <string name="recurrent_go_trip">Viaje habitual de Ida</string>
     <string name="recurrent_go_back_trip">Viaje habitual de Ida y Vuelta</string>
     <string name="past_trip">Viaje pasado</string>
-    <string name="call">Llamar al móvil</string>
+    <string name="call">Llamar</string>
     <string name="share_trunk_question">¿Compartimos maletero?</string>
+    <string name="on_boarding_0">La primera red de coches particulares para mensajería</string>
     <string name="on_boarding_1">¡No viajes con el maletero vacío! Ahora con shipeer puedes llenarlo y compartir tus gastos de viaje</string>
     <string name="on_boarding_2">Paga menos por tus envíos y ayuda a otros a compartir sus gastos de viaje</string>
     <string name="on_boarding_3">Utiliza nuestro buscador para encontrar un conductor que transporte tus cosas</string>
@@ -131,5 +132,9 @@
     <string name="search_a_driver">Busca un conductor</string>
     <string name="next_arrow">Siguiente ></string>
     <string name="publish_trip_error">Ha habido un error al publicar el viaje</string>
+    <string name="error_delete_trip">No se pudo borrar el viaje</string>
+    <string name="send_whatsapp">WhatsApp</string>
+    <string name="add_contact">Añadir contacto</string>
+    <string name="shipeer">Shipeer</string>
 
 </resources>

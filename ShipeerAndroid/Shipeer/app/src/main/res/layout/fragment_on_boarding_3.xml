@@ -1,0 +1,230 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.shipeer.app.OnBoardingFragment">
+
+    <TextView
+        android:id="@+id/on_boarding_title_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="@string/search_a_driver"
+        android:textSize="20sp"
+        android:textColor="@color/shipeer_kazan"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/on_boarding_text_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/on_boarding_title_textView"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="@string/on_boarding_3"
+        android:textColor="@color/shipeer_kazan"/>
+
+    <RelativeLayout
+        android:id="@+id/on_boarding_from_to_relativeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/shipeer_kazan"
+        android:layout_below="@id/on_boarding_text_textView"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:padding="4dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valencia  →  Madrid"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <!-- USER EXAMPLE 1 -->
+    <RelativeLayout
+        android:id="@+id/on_boarding_user_1_relativeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/on_boarding_from_to_relativeLayout"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="25dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:background="@android:color/white"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:paddingLeft="70dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:id="@+id/on_boarding_user_1_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Leire"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/on_boarding_user_1_name"
+                android:text="Envía desde 6€"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/on_boarding_user_1_imageView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/chica_1"/>
+    </RelativeLayout>
+
+    <!-- USER EXAMPLE 2 -->
+    <RelativeLayout
+        android:id="@+id/on_boarding_user_2_relativeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/on_boarding_user_1_relativeLayout"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="25dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:background="@android:color/white"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:paddingLeft="70dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:id="@+id/on_boarding_user_2_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Juan"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/on_boarding_user_2_name"
+                android:text="Envía desde 5€"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/on_boarding_user_2_imageView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/chico_1"/>
+    </RelativeLayout>
+
+    <!-- USER EXAMPLE 3 -->
+    <RelativeLayout
+        android:id="@+id/on_boarding_user_3_relativeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/on_boarding_user_2_relativeLayout"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="25dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:background="@android:color/white"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:paddingLeft="70dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:id="@+id/on_boarding_user_3_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jose Luis"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/on_boarding_user_3_name"
+                android:text="Envía desde 4€"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/on_boarding_user_3_imageView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/chico_2"/>
+    </RelativeLayout>
+
+    <!-- USER EXAMPLE 4 -->
+    <RelativeLayout
+        android:id="@+id/on_boarding_user_4_relativeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/on_boarding_user_3_relativeLayout"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="25dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:background="@android:color/white"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:paddingLeft="70dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:id="@+id/on_boarding_user_4_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tere"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/on_boarding_user_4_name"
+                android:text="Envía desde 5€"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/on_boarding_user_4_imageView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/chica_2"/>
+    </RelativeLayout>
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/on_boarding_next_relativeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/on_boarding_next_textView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/next_arrow"
+            android:gravity="center"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

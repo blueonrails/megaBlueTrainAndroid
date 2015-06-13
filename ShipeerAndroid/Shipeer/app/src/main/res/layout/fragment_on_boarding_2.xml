@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.shipeer.app.OnBoardingFragment">
+
+    <TextView
+        android:id="@+id/on_boarding_title_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="@string/save_money_sending"
+        android:textSize="20sp"
+        android:textColor="@color/shipeer_kazan"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/on_boarding_text_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/on_boarding_title_textView"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="@string/on_boarding_2"
+        android:textColor="@color/shipeer_kazan"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="330dp"
+        android:src="@drawable/onboarding_2"
+        android:layout_below="@id/on_boarding_text_textView"
+        android:layout_marginTop="10dp"
+        android:scaleType="fitCenter"/>
+
+    <RelativeLayout
+        android:id="@+id/on_boarding_next_relativeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/on_boarding_next_textView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/next_arrow"
+            android:gravity="center"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

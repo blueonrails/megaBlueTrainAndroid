@@ -244,7 +244,9 @@
                         android:id="@+id/trip_description_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Description"/>
+                        android:text="Description"
+                        android:maxLines="5"
+                        android:scrollbars="vertical"/>
                 </RelativeLayout>
 
                 <!-- DRIVER PROFILE -->
@@ -296,25 +298,68 @@
                 android:background="@color/shipeer_lima"
                 android:layout_above="@+id/trip_map_details_relativeLayout">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_phone_white600_24dp"
-                    android:layout_toLeftOf="@+id/booking_textView"
-                    android:layout_marginRight="12dp"
-                    android:layout_centerVertical="true"/>
+                    android:orientation="horizontal"
+                    android:weightSum="1">
 
-                <TextView
-                    android:id="@+id/booking_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:background="@color/shipeer_lima"
-                    android:gravity="center"
-                    android:layout_centerInParent="true"
-                    android:text="@string/call"
-                    android:textColor="@android:color/white"
-                    android:textSize="25sp" />
+                    <LinearLayout
+                        android:id="@+id/call_driver_linearLayout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/phone_call"
+                        android:gravity="center"
+                        android:layout_weight="0.52">
 
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_phone_white600_24dp"
+                            android:layout_toLeftOf="@+id/call_driver_textView"
+                            android:layout_marginRight="12dp"
+                            android:layout_centerVertical="true"/>
+
+                        <TextView
+                            android:id="@+id/call_driver_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:gravity="center"
+                            android:layout_centerInParent="true"
+                            android:text="@string/call"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/whatsapp_driver_linearLayout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/shipeer_lima"
+                        android:gravity="center"
+                        android:layout_weight="0.48">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_person_add_white_24dp"
+                            android:layout_toLeftOf="@+id/whatsapp_driver_textView"
+                            android:layout_marginRight="12dp"
+                            android:layout_centerVertical="true"/>
+
+                        <TextView
+                            android:id="@+id/whatsapp_driver_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:background="@color/shipeer_lima"
+                            android:gravity="center"
+                            android:layout_centerInParent="true"
+                            android:text="@string/add_contact"
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout

@@ -28,8 +28,16 @@
         android:text="@string/on_boarding_1"
         android:textColor="@color/shipeer_kazan"/>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:src="@drawable/onboarding_1"
+        android:layout_below="@id/on_boarding_text_textView"
+        android:layout_marginTop="10dp"
+        android:scaleType="fitCenter"/>
 
     <RelativeLayout
+        android:id="@+id/on_boarding_next_relativeLayout"
         android:layout_width="fill_parent"
         android:layout_height="52dp"
         android:layout_alignParentBottom="true">
