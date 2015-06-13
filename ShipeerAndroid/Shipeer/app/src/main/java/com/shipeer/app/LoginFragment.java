@@ -30,6 +30,8 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import async.EmailLoginTask;
 import async.FacebookLoginTask;
@@ -62,6 +64,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnE
 
     //private SignInButton googlePlusButton;
 
+    private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
+    private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
+    private boolean pendingPublishReauthorization = true;
+
+
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
         return fragment;
@@ -78,7 +85,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnE
 
         sendAnalyticsView();
 
-        if(Session.getActiveSession() != null) {
+        if (Session.getActiveSession() != null) {
             Session.getActiveSession().close();
             Session.getActiveSession().closeAndClearTokenInformation();
         }
@@ -86,8 +93,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnE
         uiHelper = new UiLifecycleHelper(getActivity(), callback);
         uiHelper.onCreate(savedInstanceState);
 
-        Log.i(TAG_ONCREATE, "Session state: " );
-        Log.i(TAG_ONCREATE, "Session accessToken: " );
+        Log.i(TAG_ONCREATE, "Session state: ");
+        Log.i(TAG_ONCREATE, "Session accessToken: ");
     }
 
     @Override
@@ -110,13 +117,33 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnE
         registerTextView.setOnClickListener(this);
         //googlePlusButton.setOnClickListener(this);
 
+        if (savedInstanceState != null) {
+            pendingPublishReauthorization = savedInstanceState.getBoolean(PENDING_PUBLISH_KEY, false);
+        }
+
         return view;
     }
 
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-        if(exception != null) Log.d("EXCEPTION", exception.toString() + " .");
-        if(state != null) Log.d("STATE", state.toString() + " .");
+        if (exception != null) Log.d("EXCEPTION", exception.toString() + " .");
+        if (state != null) Log.d("STATE", state.toString() + " .");
         if (state.isOpened()) {
+            /**if (pendingPublishReauthorization) {
+                 pendingPublishReauthorization = false;
+                 if (session != null) {
+
+                     // Check for publish permissions
+                     List<String> permissions = session.getPermissions();
+                     if (!isSubsetOf(PERMISSIONS, permissions)) {
+                         pendingPublishReauthorization = true;
+                         Session.NewPermissionsRequest newPermissionsRequest = new Session
+                            .NewPermissionsRequest(this, PERMISSIONS);
+                         session.requestNewPublishPermissions(newPermissionsRequest);
+                         //return;
+                     }
+                 }
+             }**/
+
             GlobalState.saveFacebookToken(session.getAccessToken(), session.getExpirationDate().toString());
 
             Request.newMeRequest(session, new Request.GraphUserCallback() {
@@ -125,31 +152,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnE
                     if (user != null) {
                         Log.i(TAG, "Logged in... response:" + response.getRawResponse());
 
-                        /**
-                        String baseUsername = preferences.getString("BaseUsername", null);
-                        if(baseUsername == null) editor.putString("BaseUsername", user.getName());
-
-                        String baseUserGender = preferences.getString("BaseUserGender", null);
-                        if(baseUserGender == null) editor.putString("BaseUserGender", user.getProperty("gender").toString());
-
-                        String baseUserFirstName = preferences.getString("BaseUserFirstName", null);
-                        if(baseUserFirstName == null) editor.putString("BaseUserFirstName", user.getFirstName());
-
-                        String baseUserSurname = preferences.getString("BaseUserSurname", null);
-                        if(baseUserSurname == null) editor.putString("BaseUserSurname", user.getLastName());
-
-                        String baseUserBirthday = preferences.getString("BaseUserBirthday", null);
-                        if(baseUserBirthday == null) editor.putString("BaseUserBirthday", user.getBirthday());
-
-                        String baseUserEmail = preferences.getString("BaseUserEmail", null);
-                        if(baseUserEmail == null) editor.putString("BaseUserEmail", user.getProperty("email").toString());
-
-                        String baseUserProfilePicture = preferences.getString("BaseUserProfilePicture", null);
-                        if(baseUserProfilePicture == null) editor.putString("BaseUserProfilePicture", "https://graph.facebook.com/" + user.getId() + "/picture?type=large");
-                        **/
-
                         String gender = "";
-                        if(user.getProperty("gender") != null) gender = user.getProperty("gender").toString();
+                        if (user.getProperty("gender") != null)
+                            gender = user.getProperty("gender").toString();
 
                         GlobalState.saveBaseUserData(
                                 user.getName(),
@@ -183,14 +188,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnE
                             loginButton.setEnabled(false);
                             FacebookLoginTask fbLoginTask = new FacebookLoginTask(LoginFragment.this);
                             fbLoginTask.execute(form);
-
-                        }
-                        else {
+                        } else {
                             showNoInternetConnectionError();
                         }
                     }
                 }
             }).executeAsync();
+
         } else if (state.isClosed()) {
             Log.i(TAG, "Logged out...");
         }
@@ -201,14 +205,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnE
         asyncLoadProgressBar.setVisibility(View.GONE);
         loginButton.setEnabled(true);
         emailLoginButton.setEnabled(true);
-        if(result != null) {
-            if(result.length == 1) {
+        if (result != null) {
+            if (result.length == 1) {
                 Toast.makeText(this.getActivity(), getString(R.string.connection_problem), Toast.LENGTH_SHORT).show();
-                if(Session.getActiveSession() != null) {
+                if (Session.getActiveSession() != null) {
                     Session.getActiveSession().closeAndClearTokenInformation();
                 }
-            }
-            else if(result.length == 4) {
+            } else if (result.length == 4) {
                 GlobalState.saveBaseUserTokens(
                         result[0],
                         result[1],
@@ -222,8 +225,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnE
 
                 goToHomeFragment();
             }
-        }
-        else {
+        } else {
             Toast.makeText(this.getActivity(), getString(R.string.connection_problem), Toast.LENGTH_SHORT).show();
         }
     }
@@ -240,6 +242,22 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnE
         uiHelper.onActivityResult(requestCode, resultCode, data);
     }
 
+    private boolean isSubsetOf(Collection<String> subset, Collection<String> superset) {
+        for (String string : subset) {
+            if (!superset.contains(string)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private Session.StatusCallback callback = new Session.StatusCallback() {
+        @Override
+        public void call(Session session, SessionState state, Exception exception) {
+            onSessionStateChange(session, state, exception);
+        }
+    };
+
     @Override
     public void onPause() {
         super.onPause();
@@ -255,22 +273,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnE
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putBoolean(PENDING_PUBLISH_KEY, pendingPublishReauthorization);
         uiHelper.onSaveInstanceState(outState);
     }
-
-    private Session.StatusCallback callback = new Session.StatusCallback() {
-        @Override
-        public void call(Session session, SessionState state, Exception exception) {
-            onSessionStateChange(session, state, exception);
-        }
-    };
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             /**case R.id.google_plus_login_button:
 
-                break;**/
+             break;**/
             case R.id.email_login_button:
                 emailLogin();
                 break;
@@ -347,11 +359,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnE
         asyncLoadProgressBar.setVisibility(View.GONE);
         emailLoginButton.setEnabled(true);
         loginButton.setEnabled(true);
-        if(result != null) {
-            if(result.length == 1) {
+        if (result != null) {
+            if (result.length == 1) {
                 Toast.makeText(this.getActivity(), getString(R.string.email_or_password_incorrect), Toast.LENGTH_SHORT).show();
-            }
-            else if(result.length == 4) {
+            } else if (result.length == 4) {
                 GlobalState.saveBaseUserEmailAndPass(
                         emailDialogStr,
                         passwordDialogStr
@@ -364,7 +375,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnE
                         result[3]
                 );
 
-                if(checkInternetConnection()) {
+                if (checkInternetConnection()) {
                     asyncLoadProgressBar.setVisibility(View.VISIBLE);
                     asyncLoadProgressBar.setProgress(50);
                     emailLoginButton.setEnabled(false);
@@ -374,16 +385,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnE
 
                     PublicUserProfileTask publicUserProfileTask = new PublicUserProfileTask(this);
                     publicUserProfileTask.execute(result[0], result[1], result[2]);
-                }
-                else {
+                } else {
                     showNoInternetConnectionError();
                 }
-            }
-            else {
+            } else {
                 Toast.makeText(this.getActivity(), getString(R.string.connection_problem), Toast.LENGTH_SHORT).show();
             }
-        }
-        else {
+        } else {
             Toast.makeText(this.getActivity(), getString(R.string.connection_problem), Toast.LENGTH_SHORT).show();
         }
     }
@@ -391,12 +399,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnE
     private void goToHomeFragment() {
         /**FragmentManager fragmentManager = getFragmentManager();
 
-        if (fragmentManager != null) {
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+         if (fragmentManager != null) {
+         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-            HomeFragment fragment = new HomeFragment();
-            fragmentTransaction.replace(R.id.main_fragment_container_frameLayout, fragment).commit();
-        }**/
+         HomeFragment fragment = new HomeFragment();
+         fragmentTransaction.replace(R.id.main_fragment_container_frameLayout, fragment).commit();
+         }**/
 
         Intent intent = new Intent(this.getActivity(), MainActivity.class);
         startActivity(intent);

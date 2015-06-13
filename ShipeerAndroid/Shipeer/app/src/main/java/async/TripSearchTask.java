@@ -83,9 +83,15 @@ public class TripSearchTask extends AsyncTask<String, Void, ArrayList<Trip>> {
                     String userLastName = URLDecoder.decode(userInfoJsonObj.getString("lastName"), "utf-8");
                     String userPhone = userInfoJsonObj.getString("phone");
 
+                    String userProfilePictureId = null;
+                    String userProfilePictureVersion = null;
                     JSONObject profilePicJsonObj = userInfoJsonObj.getJSONObject("profilePicture");
-                    String userProfilePictureId = profilePicJsonObj.getString("id");
-                    String userProfilePictureVersion = profilePicJsonObj.getString("version");
+                    if(!profilePicJsonObj.isNull("id")) {
+                        userProfilePictureId = profilePicJsonObj.getString("id");
+                    }
+                    if(!profilePicJsonObj.isNull("version")) {
+                        userProfilePictureVersion = profilePicJsonObj.getString("version");
+                    }
 
                     JSONObject tripFromJsonObj = jsonObj.getJSONObject("from");
                     String cityFromString = URLDecoder.decode(tripFromJsonObj.getString("name"), "utf-8");

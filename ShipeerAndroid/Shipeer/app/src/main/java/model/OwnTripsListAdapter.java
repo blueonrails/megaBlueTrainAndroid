@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shipeer.app.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import async.PublishTripTask;
@@ -46,6 +48,7 @@ public class OwnTripsListAdapter extends BaseAdapter {
     }
 
     public static class ViewHolder{
+        public RelativeLayout tripRowRelativeLayout;
         public TextView tripCityFromTextView;
         public TextView tripCityToTextView;
         public TextView tripTypeTextView;
@@ -65,6 +68,7 @@ public class OwnTripsListAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.own_trips_row, null);
             holder = new ViewHolder();
 
+            holder.tripRowRelativeLayout = (RelativeLayout) view.findViewById(R.id.own_trip_row_relativeLayout);
             holder.tripCityFromTextView = (TextView) view.findViewById(R.id.trip_city_from_textView);
             holder.tripCityToTextView = (TextView) view.findViewById(R.id.trip_city_to_textView);
             holder.tripTypeTextView = (TextView) view.findViewById(R.id.trip_type_textView);
@@ -94,8 +98,18 @@ public class OwnTripsListAdapter extends BaseAdapter {
                     break;
             }
             if(tempTrip.getDepartureDateAndroid() != null) {
-                Date androidDate = MySimpleDateFormat.parseAndroidDate(tempTrip.getDepartureDateAndroid());
-                holder.tripDateTextView.setText(MySimpleDateFormat.formatAndroidDateTime(androidDate));
+                Date androidDepartureDate = MySimpleDateFormat.parseAndroidDate(tempTrip.getDepartureDateAndroid());
+                holder.tripDateTextView.setText(MySimpleDateFormat.formatAndroidDateTime(androidDepartureDate));
+
+                Calendar cal = Calendar.getInstance();
+                Date today = cal.getTime();
+                if(tempTrip.getType() == 0) {
+                    if(androidDepartureDate.compareTo(today) < 0) holder.tripRowRelativeLayout.setBackgroundColor(activity.getResources().getColor(android.R.color.darker_gray));
+                }
+                else {
+                    Date androidReturnDate = MySimpleDateFormat.parseAndroidDate(tempTrip.getReturnDateAndroid());
+                    if(androidReturnDate.compareTo(today) < 0) holder.tripRowRelativeLayout.setBackgroundColor(activity.getResources().getColor(android.R.color.darker_gray));
+                }
             }
 
         }

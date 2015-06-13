@@ -18,13 +18,13 @@ import com.shipeer.app.R;
 public class NavigationAdapter extends BaseAdapter {
     private Activity activity;
     ArrayList<String> arrayitms;
-    ArrayList<Integer> arrayIcons;
+    //ArrayList<Integer> arrayIcons;
 
-    public NavigationAdapter(Activity activity,ArrayList<String>  listarry, ArrayList<Integer> arrayIcons) {
+    public NavigationAdapter(Activity activity,ArrayList<String>  listarry) {//, ArrayList<Integer> arrayIcons) {
         super();
         this.activity = activity;
         this.arrayitms = listarry;
-        this.arrayIcons = arrayIcons;
+        //this.arrayIcons = arrayIcons;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class NavigationAdapter extends BaseAdapter {
 
     public static class Row {
         TextView titulo_itm;
-        ImageView icon_itm;
+        //ImageView icon_itm;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {

@@ -117,8 +117,8 @@ public class EditOwnTripTask extends AsyncTask<String, Void, String[]> {
             String finishingDate = MySimpleDateFormat.convertFromAndroidToISO(form[9]);
 
             nameValuePairs.add(new BasicNameValuePair("type", form[1]));
-            nameValuePairs.add(new BasicNameValuePair("locations[0]", URLEncoder.encode(form[2], "utf-8")));
-            nameValuePairs.add(new BasicNameValuePair("locations[1]", URLEncoder.encode(form[3], "utf-8")));
+            nameValuePairs.add(new BasicNameValuePair("locations[0][name]", URLEncoder.encode(form[2], "utf-8")));
+            nameValuePairs.add(new BasicNameValuePair("locations[1][name]", URLEncoder.encode(form[3], "utf-8")));
             nameValuePairs.add(new BasicNameValuePair("price[0]", form[4]));
             nameValuePairs.add(new BasicNameValuePair("price[1]", form[5]));
             nameValuePairs.add(new BasicNameValuePair("price[2]", form[6]));
@@ -153,8 +153,8 @@ public class EditOwnTripTask extends AsyncTask<String, Void, String[]> {
             String finishingDate = MySimpleDateFormat.convertFromAndroidToISO(form[9]);
 
             nameValuePairs.add(new BasicNameValuePair("type", form[1]));
-            nameValuePairs.add(new BasicNameValuePair("locations[0]", URLEncoder.encode(form[2], "utf-8")));
-            nameValuePairs.add(new BasicNameValuePair("locations[1]", URLEncoder.encode(form[3], "utf-8")));
+            nameValuePairs.add(new BasicNameValuePair("locations[0][name]", URLEncoder.encode(form[2], "utf-8")));
+            nameValuePairs.add(new BasicNameValuePair("locations[1][name]", URLEncoder.encode(form[3], "utf-8")));
             nameValuePairs.add(new BasicNameValuePair("price[0]", form[4]));
             nameValuePairs.add(new BasicNameValuePair("price[1]", form[5]));
             nameValuePairs.add(new BasicNameValuePair("price[2]", form[6]));
@@ -199,8 +199,8 @@ public class EditOwnTripTask extends AsyncTask<String, Void, String[]> {
             Log.d("TRIP DATE AFTER", departureDatetime);
 
             nameValuePairs.add(new BasicNameValuePair("type", form[1]));
-            nameValuePairs.add(new BasicNameValuePair("locations][0]", URLEncoder.encode(form[2], "utf-8")));
-            nameValuePairs.add(new BasicNameValuePair("locations][1]", URLEncoder.encode(form[3], "utf-8")));
+            nameValuePairs.add(new BasicNameValuePair("locations][0][name]", URLEncoder.encode(form[2], "utf-8")));
+            nameValuePairs.add(new BasicNameValuePair("locations][1][name]", URLEncoder.encode(form[3], "utf-8")));
             nameValuePairs.add(new BasicNameValuePair("price[0]", form[4]));
             nameValuePairs.add(new BasicNameValuePair("price[1]", form[5]));
             nameValuePairs.add(new BasicNameValuePair("price[2]", form[6]));
@@ -226,8 +226,8 @@ public class EditOwnTripTask extends AsyncTask<String, Void, String[]> {
             Log.d("TRIP DATE AFTER", departureDatetime);
 
             nameValuePairs.add(new BasicNameValuePair("type", form[1]));
-            nameValuePairs.add(new BasicNameValuePair("locations][0]", URLEncoder.encode(form[2], "utf-8")));
-            nameValuePairs.add(new BasicNameValuePair("locations][1]", URLEncoder.encode(form[3], "utf-8")));
+            nameValuePairs.add(new BasicNameValuePair("locations][0][name]", URLEncoder.encode(form[2], "utf-8")));
+            nameValuePairs.add(new BasicNameValuePair("locations][1][name]", URLEncoder.encode(form[3], "utf-8")));
             nameValuePairs.add(new BasicNameValuePair("price[0]", form[4]));
             nameValuePairs.add(new BasicNameValuePair("price[1]", form[5]));
             nameValuePairs.add(new BasicNameValuePair("price[2]", form[6]));
@@ -242,24 +242,5 @@ public class EditOwnTripTask extends AsyncTask<String, Void, String[]> {
         }
         return null;
     }
-
-    /**public String parseDateToddMMyyyy(String time) {
-     Log.d("INPUT STRING", "DATE=" + time);
-     String inputPattern = "dd/MM/yyyy HH:mm";
-     String outputPattern = "yyy-MM-dd'T'HH:mm:ssZ";
-     SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern, Locale.US);
-     SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
-
-     Date date = null;
-     String str = null;
-
-     try {
-     date = inputFormat.parse(time);
-     str = outputFormat.format(date);
-     } catch (ParseException e) {
-     e.printStackTrace();
-     }
-     return str;
-     }**/
 
 }

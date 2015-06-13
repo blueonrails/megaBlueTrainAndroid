@@ -44,9 +44,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import async.DeleteOwnTripTask;
 import async.EditOwnTripTask;
 import async.PlacesTask;
 import async.PublishTripTask;
+import async.interfaces.OnDeleteOwnTripTaskCompleted;
 import async.interfaces.OnEditOwnTripTaskCompleted;
 import async.interfaces.OnPlacesTaskCompleted;
 import discreteSeekBar.DiscreteSeekBar;
@@ -55,7 +57,7 @@ import model.MySimpleDateFormat;
 import model.Trip;
 
 
-public class EditOwnRecurrentTripActivity extends Activity implements View.OnClickListener, DiscreteSeekBar.OnProgressChangeListener, AdapterView.OnItemClickListener, OnPlacesTaskCompleted, OnEditOwnTripTaskCompleted, CompoundButton.OnCheckedChangeListener {
+public class EditOwnRecurrentTripActivity extends Activity implements View.OnClickListener, DiscreteSeekBar.OnProgressChangeListener, AdapterView.OnItemClickListener, OnPlacesTaskCompleted, OnEditOwnTripTaskCompleted, CompoundButton.OnCheckedChangeListener, OnDeleteOwnTripTaskCompleted {
 
     private static final String VIEW_NAME = "Edit Own Recurrent Trip Activity";
 
@@ -564,6 +566,9 @@ public class EditOwnRecurrentTripActivity extends Activity implements View.OnCli
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         super.onPositive(dialog);
+                        String [] form = {currentTrip.getTripId()};
+                        DeleteOwnTripTask deleteOwnTripTask = new DeleteOwnTripTask(EditOwnRecurrentTripActivity.this);
+                        deleteOwnTripTask.execute(form);
                     }
                 }).build();
 
@@ -807,6 +812,17 @@ public class EditOwnRecurrentTripActivity extends Activity implements View.OnCli
         returnIntent.putExtra("result", result);
         setResult(RESULT_OK, returnIntent);
         finish();
+    }
+
+    @Override
+    public void onDeleteOwnTripTaskCompleted(String[] result) {
+        if(result == null) Toast.makeText(this, getString(R.string.error_delete_trip), Toast.LENGTH_SHORT).show();
+        else {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result", result);
+            setResult(RESULT_OK, returnIntent);
+            finish();
+        }
     }
 
     @Override

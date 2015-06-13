@@ -161,8 +161,11 @@ public class UserOwnTripsFragment extends Fragment implements View.OnClickListen
 
         Calendar cal = Calendar.getInstance();
 
-        Date androidDate = MySimpleDateFormat.parseAndroidDate(tripClicked.getDepartureDateAndroid());
-        if(androidDate.compareTo(cal.getTime()) > 0) {
+        Date androidDate = null;
+        if(tripClicked.getType() == 0) androidDate = MySimpleDateFormat.parseAndroidDate(tripClicked.getDepartureDateAndroid());
+        else androidDate = MySimpleDateFormat.parseAndroidDate(tripClicked.getReturnDateAndroid());
+
+        if(androidDate != null && androidDate.compareTo(cal.getTime()) > 0) {
             bundle.putString("tripId", tripClicked.getTripId());
 
             int tripType = tripClicked.getType();

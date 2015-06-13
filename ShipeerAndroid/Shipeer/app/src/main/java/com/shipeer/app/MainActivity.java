@@ -111,7 +111,7 @@ public class MainActivity extends FragmentActivity implements AdapterView.OnItem
         if (facebookAccessToken != null || baseUserKey != null) {
             setContentView(R.layout.activity_main);
 
-            //checkTokenExpireDate();
+            checkTokenExpireDate();
             downloadUserProfile();
 
             actionBarTitle = (TextView) findViewById(R.id.indicator_style);
@@ -221,28 +221,23 @@ public class MainActivity extends FragmentActivity implements AdapterView.OnItem
         header = inflater.inflate(R.layout.drawer_layout_header, null);
         header.setEnabled(false);
 
-        SharedPreferences preferences = GlobalState.getSharedPreferences();
-
         headerName = (TextView) header.findViewById(R.id.name_header);
         profilePictureHeader = (ImageView) header.findViewById(R.id.profile_picture_header);
 
-        String userFirstName = preferences.getString("BaseUserFirstName", null);
-        String baseUserSurname = preferences.getString("BaseUserSurname", null);
+        String userFirstName = GlobalState.getBaseUserFirstName();
+        String baseUserSurname = GlobalState.getBaseUserSurname();
 
         if (userFirstName != null) headerName.setText(userFirstName);
         if (baseUserSurname != null)
             headerName.setText(headerName.getText() + " " + baseUserSurname);
 
-        //String baseUserProfilePicture = preferences.getString("BaseUserProfilePicture", null);
-
         String baseUserProfilePictureId = GlobalState.getBaseUserProfilePictureId();
         String baseUserProfilePictureVersion = GlobalState.getBaseUserProfilePictureVersion();
 
-        //if(baseUserProfilePicture != null) Log.d("BaseUserProfilePicture", baseUserProfilePicture);
-        if(baseUserProfilePictureId != null) Log.d("PictureId", baseUserProfilePictureId);
-        if(baseUserProfilePictureVersion != null) Log.d("PictureVersion", baseUserProfilePictureVersion);
-
         if (baseUserProfilePictureId != null && !baseUserProfilePictureId.isEmpty() && baseUserProfilePictureVersion != null && !baseUserProfilePictureVersion.isEmpty()) {
+            Log.d("PictureId", baseUserProfilePictureId);
+            Log.d("PictureVersion", baseUserProfilePictureVersion);
+
             cloudinary = new Cloudinary(Utils.cloudinaryUrlFromContext(this.getApplicationContext()));
             String url = cloudinary.url().transformation(new Transformation().width(200).height(200).crop("fill")).version(baseUserProfilePictureVersion).generate(baseUserProfilePictureId);
             Log.d("URL", url);
@@ -257,8 +252,7 @@ public class MainActivity extends FragmentActivity implements AdapterView.OnItem
             profilePictureHeader.setImageDrawable(null);
             Picasso.with(this).load(url).transform(new CircleTransform()).into(profilePictureHeader);
         } else {
-            //profilePictureHeader.setImageDrawable(getResources().getDrawable(R.drawable.logo_kazan_150));
-            Picasso.with(this).load(R.drawable.logo_kazan_150).transform(new CircleTransform()).into(profilePictureHeader);
+            Picasso.with(this).load(R.drawable.default_profile_pic).resize(200,200).centerCrop().transform(new CircleTransform()).into(profilePictureHeader);
         }
 
         NavList.addHeaderView(header);
@@ -269,13 +263,13 @@ public class MainActivity extends FragmentActivity implements AdapterView.OnItem
         NavItms.add(getString(R.string.my_trips));
         NavItms.add(getString(R.string.contact));
 
-        NavIcons = new ArrayList<Integer>();
+        /**NavIcons = new ArrayList<Integer>();
         NavIcons.add(android.R.drawable.ic_menu_search);
         NavIcons.add(R.drawable.publish_trip_black);
         NavIcons.add(R.drawable.square_facebook_128);
-        NavIcons.add(android.R.drawable.ic_dialog_info);
+        NavIcons.add(android.R.drawable.ic_dialog_info);**/
 
-        NavAdapter = new NavigationAdapter(this, NavItms, NavIcons);
+        NavAdapter = new NavigationAdapter(this, NavItms);//, NavIcons);
         NavList.setAdapter(NavAdapter);
 
         NavList.setOnItemClickListener(this);
@@ -411,7 +405,7 @@ public class MainActivity extends FragmentActivity implements AdapterView.OnItem
                 Picasso.with(this).load(url).transform(new CircleTransform()).into(profilePictureHeader);
             } else {
                 //profilePictureHeader.setImageDrawable(getResources().getDrawable(R.drawable.logo_kazan_150));
-                Picasso.with(this).load(R.drawable.logo_kazan_150).transform(new CircleTransform()).into(profilePictureHeader);
+                Picasso.with(this).load(R.drawable.default_profile_pic).resize(200,200).centerCrop().transform(new CircleTransform()).into(profilePictureHeader);
             }
 
             /**if(baseUserProfilePicture != null) {
@@ -595,7 +589,7 @@ public class MainActivity extends FragmentActivity implements AdapterView.OnItem
             Picasso.with(this).load(url).transform(new CircleTransform()).into(profilePictureHeader);
         } else {
             //profilePictureHeader.setImageDrawable(getResources().getDrawable(R.drawable.logo_kazan_150));
-            Picasso.with(this).load(R.drawable.logo_kazan_150).transform(new CircleTransform()).into(profilePictureHeader);
+            Picasso.with(this).load(R.drawable.default_profile_pic).resize(200,200).centerCrop().transform(new CircleTransform()).into(profilePictureHeader);
         }
     }
 }

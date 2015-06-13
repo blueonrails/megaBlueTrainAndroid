@@ -77,6 +77,9 @@ public class UserProfileFragment extends Fragment implements View.OnClickListene
             profilePictureImageView.setImageDrawable(null);
             Picasso.with(this.getActivity()).load(url).transform(new CircleTransform()).into(profilePictureImageView);
         }
+        else {
+            Picasso.with(this.getActivity()).load(R.drawable.default_profile_pic).resize(200,200).centerCrop().transform(new CircleTransform()).into(profilePictureImageView);
+        }
 
         emailTextView = (TextView) view.findViewById(R.id.email_textView);
         String email = GlobalState.getBaseUserEmail();

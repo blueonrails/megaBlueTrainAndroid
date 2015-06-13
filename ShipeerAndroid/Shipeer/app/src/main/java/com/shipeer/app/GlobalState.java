@@ -3,10 +3,13 @@ package com.shipeer.app;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.parse.Parse;
+import com.parse.ParseInstallation;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -37,6 +40,18 @@ public class GlobalState extends Application {
             preferences = getSharedPreferences("ShipeerApp", Context.MODE_PRIVATE);
             Log.i("Application", "onCreate, preferences: " + preferences.toString());
         } else Log.i("Application", "onCreate, preferences: " + preferences.toString());
+
+        Parse.initialize(this, "RmSnPYCIXX8h4ZAXCKHQpM8u6PXWBHem6L5F8B85", "NEmPJmuJV4hUy69lYb1rYT4TrOF4eY1Mj1caMygu");
+
+        String  android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        Log.e("LOG","android id >>" + android_id);
+
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("UniqueId",android_id);
+        String baseUserId = GlobalState.getBaseUserId();
+        if(baseUserId != null && !baseUserId.isEmpty()) installation.put("ShipeerUserId", baseUserId);
+
+        installation.saveInBackground();
     }
 
     public static SharedPreferences getSharedPreferences() {
@@ -67,6 +82,18 @@ public class GlobalState extends Application {
     public static boolean saveBaseUserEmail(String email) {
         SharedPreferences.Editor editor = preferences.edit();
         if (email != null && !email.isEmpty()) editor.putString("BaseUserEmail", email);
+        return editor.commit();
+    }
+
+    public static boolean saveBaseUserSurname(String surname) {
+        SharedPreferences.Editor editor = preferences.edit();
+        if(surname != null && !surname.isEmpty()) editor.putString("BaseUserSurname", surname);
+        return editor.commit();
+    }
+
+    public static boolean saveBaseUserFirstName(String firstName) {
+        SharedPreferences.Editor editor = preferences.edit();
+        if(firstName != null && !firstName.isEmpty()) editor.putString("BaseUserFirstName", firstName);
         return editor.commit();
     }
 
@@ -168,10 +195,6 @@ public class GlobalState extends Application {
 
     public static String getBaseUserKey() {
         return preferences.getString("BaseUserKey", null);
-    }
-
-    public static String getBaseUserProfilePicture() {
-        return preferences.getString("BaseUserProfilePicture", null);
     }
 
     public static String getBaseUserSurname() {

@@ -95,6 +95,9 @@ public class SearchResultsListAdapter extends BaseAdapter {
                 holder.carrierProfilePicImageView.setImageDrawable(null);
                 Picasso.with(activity).load(url).transform(new CircleTransform()).into(holder.carrierProfilePicImageView);
             }
+            else {
+                Picasso.with(activity).load(R.drawable.default_profile_pic).resize(200,200).centerCrop().transform(new CircleTransform()).into(holder.carrierProfilePicImageView);
+            }
         }
 
         return view;

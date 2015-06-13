@@ -34,6 +34,7 @@ public class ProfilePictureUploaderTask extends AsyncTask<String, Void, String[]
         final Map<String, String> options = new HashMap<>();
         options.put("public_id", resId);
         options.put("timestamp", params[2]);
+        options.put("quality", "50");
 
         if(params[0] != null && !params[0].isEmpty()) {
             try {

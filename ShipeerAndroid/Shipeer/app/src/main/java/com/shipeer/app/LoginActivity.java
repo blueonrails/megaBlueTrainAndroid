@@ -20,6 +20,8 @@ import model.ColorAnimationView;
  */
 public class LoginActivity extends FragmentActivity {
 
+    ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,10 +29,14 @@ public class LoginActivity extends FragmentActivity {
 
         MyFragmentStatePager adapter = new MyFragmentStatePager(getSupportFragmentManager());
         //ColorAnimationView colorAnimationView = (ColorAnimationView) findViewById(R.id.ColorAnimationView);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setOffscreenPageLimit(0);
         viewPager.setAdapter(adapter);
 
+    }
+
+    public void selectPage(int page) {
+        viewPager.setCurrentItem(page);
     }
 
     public class MyFragmentStatePager extends FragmentStatePagerAdapter {
@@ -42,15 +48,12 @@ public class LoginActivity extends FragmentActivity {
         @Override public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    sendAnalyticsView("On Boarding (" + (position+1) + "/5)");
-                    OnBoardingFragment onBoardingFragment1 = new OnBoardingFragment(position);
-                    return onBoardingFragment1;
                 case 1:
                 case 2:
                 case 3:
                     sendAnalyticsView("On Boarding (" + (position+1) + "/5)");
-                    OnBoardingFragment onBoardingFragment2 = new OnBoardingFragment(position);
-                    return onBoardingFragment2;
+                    OnBoardingFragment onBoardingFragment = new OnBoardingFragment(position);
+                    return onBoardingFragment;
                 case 4:
                     sendAnalyticsView("On Boarding Login (5/5)");
                     return new LoginFragment();

@@ -2,19 +2,26 @@ package com.shipeer.app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.method.ScrollingMovementMethod;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Transformation;
@@ -81,7 +88,9 @@ public class SearchTripDetailsFragment extends Fragment implements OnRouteFromTo
 
     private Trip trip;
 
-    private TextView bookTextView;
+    //private TextView bookTextView;
+    private LinearLayout callDriverLinearLayout;
+    private LinearLayout whatsappDriverLinearLayout;
 
     private Cloudinary cloudinary;
 
@@ -167,6 +176,7 @@ public class SearchTripDetailsFragment extends Fragment implements OnRouteFromTo
         priceExtraBigTextView.setText(trip.getPriceExtraBig() + "€");
 
         descriptionTextView = (TextView) view.findViewById(R.id.trip_description_textView);
+        descriptionTextView.setMovementMethod(new ScrollingMovementMethod());
         descriptionTextView.setText(trip.getDescription() + "");
 
         driverDetailsRelativeLayout = (RelativeLayout) view.findViewById(R.id.trip_driver_details_relativeLayout);
@@ -204,8 +214,11 @@ public class SearchTripDetailsFragment extends Fragment implements OnRouteFromTo
             }
         });
 
-        bookTextView = (TextView) view.findViewById(R.id.booking_textView);
-        bookTextView.setOnClickListener(this);
+        callDriverLinearLayout = (LinearLayout) view.findViewById(R.id.call_driver_linearLayout);
+        callDriverLinearLayout.setOnClickListener(this);
+
+        whatsappDriverLinearLayout = (LinearLayout) view.findViewById(R.id.whatsapp_driver_linearLayout);
+        whatsappDriverLinearLayout.setOnClickListener(this);
 
         return view;
     }
@@ -243,7 +256,7 @@ public class SearchTripDetailsFragment extends Fragment implements OnRouteFromTo
         }
 
         if (pathFromTo != null) pathFromTo.remove();
-        pathFromTo = mMap.addPolyline(polyLineOptions);
+        if(polyLineOptions != null && pathFromTo != null && mMap != null) pathFromTo = mMap.addPolyline(polyLineOptions);
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         builder.include(markerFrom.getPosition());
@@ -276,12 +289,22 @@ public class SearchTripDetailsFragment extends Fragment implements OnRouteFromTo
                         .addToBackStack("driverPublicProfileFragment")
                         .commit();
                 break;
-            case R.id.booking_textView:
+            case R.id.call_driver_linearLayout:
                 sendAnalyticsBooking();
                 Intent dial = new Intent();
                 dial.setAction("android.intent.action.DIAL");
                 dial.setData(Uri.parse("tel:" + trip.getCarrierPhone()));
                 startActivity(dial);
+                break;
+            case R.id.whatsapp_driver_linearLayout:
+                Intent intent = new Intent(Intent.ACTION_INSERT);
+                intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+
+                intent.putExtra(ContactsContract.Intents.Insert.NAME, "Shipeer " + trip.getCarrierName());
+                intent.putExtra(ContactsContract.Intents.Insert.PHONE, trip.getCarrierPhone());
+                //intent.putExtra(ContactsContract.Intents.Insert.EMAIL, trip.getCarrierEmail());
+
+                this.getActivity().startActivity(intent);
                 break;
         }
     }
